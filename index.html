@@ -1,0 +1,2417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nari Chakra – Empowering Women, Reimagining Waste</title>
+  <meta name="description" content="Nari Chakra is a college demonstration prototype for women-focused sanitary waste awareness, recycling tracking, demo reward coins and an eco store." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%99%BB%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+
+  <!-- Google Fonts (needs internet; the site still works with fallback fonts offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet" />
+
+  <style>
+/* =========================================================
+   NARI CHAKRA – STYLESHEET
+   Theme: blush pink, sage green, cream and white
+   Sections:
+   1. Design tokens   2. Base   3. Layout helpers   4. Buttons
+   5. Header/nav      6. Hero   7. Cards & stats    8. Forms
+   9. Tables & badges 10. Store 11. Cart & wallet   12. Modal/toast
+   13. Footer         14. Animations   15. Responsive
+   ========================================================= */
+
+/* ---------- 1. Design tokens ---------- */
+:root {
+  --blush-50: #fff3f6;
+  --blush-100: #fce6ec;
+  --blush-200: #f9dde4;
+  --blush-300: #f3c4d1;
+  --rose: #c9577b;
+  --rose-dark: #a63f62;
+  --sage-100: #eaf1e7;
+  --sage-200: #d4e2cf;
+  --sage-400: #9db59a;
+  --sage-600: #5f8461;
+  --sage-800: #3f5c42;
+  --cream: #fff8ef;
+  --white: #ffffff;
+  --ink: #3a2f3b;
+  --ink-soft: #6d6070;
+  --line: #ecdde1;
+  --danger: #b6384f;
+  --warn-bg: #fff4dc;
+  --warn-line: #efd58f;
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "DM Sans", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --shadow-soft: 0 10px 30px rgba(166, 63, 98, 0.1);
+  --shadow-hover: 0 16px 38px rgba(95, 132, 97, 0.2);
+}
+
+/* ---------- 2. Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.6;
+  font-size: 16px;
+}
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; margin: 0 0 .5em; color: var(--ink); }
+h1 { font-size: clamp(2.3rem, 5.4vw, 4rem); font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 700; }
+h3 { font-size: 1.15rem; font-weight: 700; }
+p { margin: 0 0 1em; }
+a { color: var(--rose-dark); }
+a:hover { color: var(--rose); }
+img { max-width: 100%; display: block; }
+code { background: var(--blush-100); padding: 2px 7px; border-radius: 6px; font-size: .92em; }
+:focus-visible { outline: 3px solid var(--sage-600); outline-offset: 2px; border-radius: 6px; }
+.muted { color: var(--ink-soft); }
+.lead { font-size: 1.12rem; color: var(--ink-soft); max-width: 62ch; }
+.small-top { margin-top: 1rem; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* ---------- 3. Layout helpers ---------- */
+.container { width: min(1140px, 92%); margin-inline: auto; }
+.container.narrow { width: min(560px, 92%); }
+.page { display: none; padding-bottom: 3.5rem; }
+.page.active { display: block; }
+.page-title { padding: 2.5rem 0 1.5rem; }
+.page-title h1 { font-size: clamp(2rem, 4.4vw, 3rem); }
+.section-head { margin: 3.5rem 0 1.5rem; }
+.section-head h2 { margin-bottom: .3em; }
+.two-col { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; align-items: start; margin-bottom: 1.5rem; }
+.two-col-cart { grid-template-columns: 1.3fr 1fr; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.2rem; }
+.card-grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-bottom: 1.5rem; }
+
+/* ---------- 4. Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+  font-family: var(--font-body); font-weight: 700; font-size: 1rem;
+  padding: .8rem 1.5rem; border-radius: 999px; border: 2px solid transparent;
+  cursor: pointer; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: var(--rose); color: var(--white); box-shadow: 0 8px 18px rgba(201, 87, 123, .28); }
+.btn-primary:hover { background: var(--rose-dark); color: var(--white); }
+.btn-sage { background: var(--sage-600); color: var(--white); box-shadow: 0 8px 18px rgba(95, 132, 97, .28); }
+.btn-sage:hover { background: var(--sage-800); color: var(--white); }
+.btn-outline { background: var(--white); color: var(--ink); border-color: var(--blush-300); }
+.btn-outline:hover { border-color: var(--rose); color: var(--rose-dark); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn-ghost:hover { background: var(--blush-100); color: var(--ink); }
+.btn-danger { background: var(--white); color: var(--danger); border-color: var(--danger); }
+.btn-danger:hover { background: var(--danger); color: var(--white); }
+.btn-sm { padding: .45rem 1rem; font-size: .9rem; }
+.btn-xs { padding: .3rem .8rem; font-size: .82rem; border-width: 1.5px; }
+.btn-block { width: 100%; }
+.btn[disabled] { opacity: .55; cursor: not-allowed; transform: none; }
+
+/* ---------- 5. Header / navigation ---------- */
+.demo-banner {
+  background: var(--sage-800); color: #f1f7ee; text-align: center;
+  padding: .5rem 1rem; font-size: .88rem;
+}
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255, 248, 239, .92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 68px; }
+.brand { display: inline-flex; align-items: center; gap: .55rem; text-decoration: none; color: var(--ink); }
+.brand-mark {
+  display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blush-300), var(--sage-400)); color: var(--white); font-size: 1.3rem;
+}
+.brand-text { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; }
+.main-nav { display: flex; align-items: center; gap: .2rem; flex: 1; justify-content: flex-end; }
+.main-nav > a {
+  text-decoration: none; color: var(--ink); font-weight: 500; padding: .5rem .8rem;
+  border-radius: 999px; transition: background .2s ease;
+}
+.main-nav > a:hover { background: var(--blush-100); }
+.main-nav > a.active { background: var(--blush-200); color: var(--rose-dark); font-weight: 700; }
+.nav-actions { display: flex; align-items: center; gap: .5rem; margin-left: .6rem; }
+.user-chip {
+  background: var(--sage-100); color: var(--sage-800); padding: .35rem .8rem; border-radius: 999px;
+  font-size: .88rem; font-weight: 700; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.cart-link {
+  position: relative; text-decoration: none; font-size: 1.35rem; padding: .3rem .5rem; border-radius: 12px;
+}
+.cart-count {
+  position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px; padding: 0 5px;
+  border-radius: 999px; background: var(--rose); color: var(--white); font-size: .72rem; font-weight: 700;
+  display: grid; place-items: center; font-family: var(--font-body);
+}
+.cart-count[data-zero="true"] { background: var(--sage-400); }
+.nav-right-mobile { display: none; align-items: center; gap: .5rem; }
+.nav-toggle {
+  display: inline-flex; flex-direction: column; gap: 5px; background: var(--white);
+  border: 1px solid var(--line); border-radius: 12px; padding: 11px; cursor: pointer;
+}
+.nav-toggle span { width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+[hidden] { display: none !important; }
+
+/* ---------- 6. Hero ---------- */
+.hero { padding: 3rem 0 1rem; background:
+  radial-gradient(900px 420px at 85% 0%, var(--blush-200), transparent 70%),
+  radial-gradient(700px 380px at 0% 100%, var(--sage-100), transparent 70%); }
+.hero-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 2rem; align-items: center; }
+.pill {
+  display: inline-block; background: var(--white); border: 1px solid var(--blush-300); color: var(--rose-dark);
+  padding: .35rem .9rem; border-radius: 999px; font-size: .88rem; font-weight: 700; margin-bottom: 1.2rem;
+}
+.hero-copy h1 { margin-bottom: .4em; }
+.hero-buttons { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.6rem; }
+.hero-art-wrap { display: grid; place-items: center; }
+.hero-art { width: min(430px, 100%); height: auto; filter: drop-shadow(0 18px 30px rgba(166, 63, 98, .18)); }
+.hero-art .spin { transform-origin: 200px 200px; animation: spin 48s linear infinite; }
+.hero-art .float-a { animation: floaty 5s ease-in-out infinite; }
+.hero-art .float-b { animation: floaty 6s ease-in-out -2s infinite; }
+
+/* ---------- 7. Cards & stats ---------- */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.stat-card {
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md);
+  padding: 1.3rem 1.2rem; display: flex; flex-direction: column; gap: .2rem; box-shadow: var(--shadow-soft);
+}
+.stat-num { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: var(--rose-dark); line-height: 1.1; }
+.stat-label { color: var(--ink-soft); font-size: .92rem; }
+.stat-label em { font-style: normal; color: var(--sage-600); font-weight: 700; }
+.live-stats { color: var(--ink-soft); font-size: .92rem; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; counter-reset: s; }
+.step { background: var(--white); border-radius: var(--radius-md); padding: 1.4rem; border: 1px solid var(--line); position: relative; }
+.step-n {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--sage-600); color: var(--white); font-weight: 700; margin-bottom: .8rem;
+}
+.step p { color: var(--ink-soft); margin: 0; }
+
+.feature-card, .info-card, .team-card {
+  display: block; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: 1.6rem; text-decoration: none; color: var(--ink); box-shadow: var(--shadow-soft);
+}
+.feature-card { transition: transform .25s ease, box-shadow .25s ease; }
+.feature-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); color: var(--ink); }
+.feature-card p, .info-card p { color: var(--ink-soft); margin: 0; }
+.feature-icon { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 16px; background: var(--blush-100); font-size: 1.6rem; margin-bottom: 1rem; }
+.feature-card:nth-child(even) .feature-icon { background: var(--sage-100); }
+.team-card { text-align: center; }
+.avatar { display: grid; place-items: center; width: 70px; height: 70px; margin: 0 auto .8rem; border-radius: 50%; background: var(--blush-100); font-size: 2rem; }
+
+.cta-band {
+  margin-top: 3.5rem; padding: 2.2rem; border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--sage-600), var(--sage-800)); color: var(--white);
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
+}
+.cta-band h2, .cta-band p { color: var(--white); margin-bottom: .3em; }
+
+.panel {
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: 1.6rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-soft);
+}
+.panel-sage { background: var(--sage-100); border-color: var(--sage-200); }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.panel h3 { margin-top: 1.2rem; }
+
+.notice { border-radius: var(--radius-sm); padding: .8rem 1rem; margin: 1rem 0; font-size: .94rem; border: 1px solid; }
+.notice-info { background: var(--sage-100); border-color: var(--sage-200); color: var(--sage-800); }
+.notice-warn { background: var(--warn-bg); border-color: var(--warn-line); color: #6b5314; }
+
+.tick-list { list-style: none; padding: 0; margin: 1rem 0; }
+.tick-list li { position: relative; padding-left: 1.7rem; margin-bottom: .6rem; }
+.tick-list li::before {
+  content: "✓"; position: absolute; left: 0; top: 0; color: var(--white); background: var(--sage-600);
+  width: 1.15rem; height: 1.15rem; border-radius: 50%; font-size: .72rem; display: grid; place-items: center; margin-top: .2rem;
+}
+
+/* ---------- 8. Forms ---------- */
+.auth-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 1.8rem; margin: 2.5rem 0; box-shadow: var(--shadow-soft); }
+.tabs { display: grid; grid-template-columns: 1fr 1fr; background: var(--blush-100); border-radius: 999px; padding: 5px; margin-bottom: 1rem; }
+.tab { border: 0; background: transparent; padding: .6rem; border-radius: 999px; font: inherit; font-weight: 700; color: var(--ink-soft); cursor: pointer; }
+.tab.active { background: var(--white); color: var(--rose-dark); box-shadow: 0 4px 10px rgba(166, 63, 98, .15); }
+.demo-creds { margin-top: 1rem; background: var(--blush-50); border-radius: var(--radius-sm); padding: .7rem 1rem; }
+.demo-creds summary { cursor: pointer; font-weight: 700; }
+
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+fieldset:disabled { opacity: .55; }
+.field { margin-bottom: 1rem; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+label { display: block; font-weight: 700; font-size: .93rem; margin-bottom: .35rem; }
+input[type="text"], input[type="email"], input[type="password"], input[type="number"],
+input[type="date"], input[type="tel"], input[type="search"], select, textarea {
+  width: 100%; font: inherit; color: var(--ink); background: var(--cream);
+  border: 2px solid var(--line); border-radius: var(--radius-sm); padding: .7rem .9rem;
+  transition: border-color .2s ease, background .2s ease;
+}
+textarea { resize: vertical; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--sage-600); background: var(--white); }
+.field.has-error input, .field.has-error select, .field.has-error textarea { border-color: var(--danger); background: #fff6f7; }
+.error { display: block; color: var(--danger); font-size: .85rem; min-height: 0; margin-top: .25rem; font-weight: 500; }
+.hint { display: block; color: var(--ink-soft); font-size: .83rem; margin-top: .25rem; }
+.check { display: flex; gap: .6rem; align-items: flex-start; font-weight: 500; cursor: pointer; }
+.check input { margin-top: .3rem; width: 18px; height: 18px; accent-color: var(--sage-600); flex: 0 0 auto; }
+.form-msg { display: none; border-radius: var(--radius-sm); padding: .75rem 1rem; margin-bottom: 1rem; font-weight: 500; }
+.form-msg.show { display: block; }
+.form-msg.success { background: var(--sage-100); color: var(--sage-800); border: 1px solid var(--sage-200); }
+.form-msg.error-msg { background: #fdecef; color: var(--danger); border: 1px solid #f3c1ca; }
+
+/* ---------- 9. Tables & badges ---------- */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .92rem; min-width: 560px; }
+th { text-align: left; background: var(--blush-100); color: var(--ink); padding: .65rem .8rem; font-weight: 700; white-space: nowrap; }
+th:first-child { border-radius: 10px 0 0 10px; }
+th:last-child { border-radius: 0 10px 10px 0; }
+td { padding: .7rem .8rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+td small { display: block; color: var(--ink-soft); }
+.actions-cell { display: flex; flex-wrap: wrap; gap: .4rem; }
+.coins-plus { color: var(--sage-600); font-weight: 700; }
+.coins-minus { color: var(--danger); font-weight: 700; }
+
+.badge { display: inline-block; padding: .18rem .65rem; border-radius: 999px; font-size: .8rem; font-weight: 700; white-space: nowrap; }
+.badge-pending { background: var(--warn-bg); color: #8a6a14; border: 1px solid var(--warn-line); }
+.badge-approved { background: #e3eefb; color: #25588f; border: 1px solid #bfd6f1; }
+.badge-rejected { background: #fdecef; color: var(--danger); border: 1px solid #f3c1ca; }
+.badge-collected { background: var(--sage-100); color: var(--sage-800); border: 1px solid var(--sage-200); }
+.badge-demo { background: var(--blush-100); color: var(--rose-dark); border: 1px solid var(--blush-300); }
+
+.empty { text-align: center; padding: 2rem 1rem; color: var(--ink-soft); background: var(--blush-50); border: 2px dashed var(--blush-300); border-radius: var(--radius-md); }
+.empty .empty-icon { font-size: 2rem; display: block; margin-bottom: .4rem; }
+.empty p { margin: 0 0 .8rem; }
+
+.mini-list { list-style: none; margin: 0; padding: 0; }
+.mini-list li { display: flex; justify-content: space-between; gap: 1rem; padding: .6rem 0; border-bottom: 1px solid var(--line); }
+.mini-list li:last-child { border-bottom: 0; }
+.mini-list small { display: block; color: var(--ink-soft); }
+
+/* ---------- 10. Store ---------- */
+.store-tools { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin: 1.2rem 0 .6rem; }
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chip {
+  border: 2px solid var(--blush-300); background: var(--white); color: var(--ink); font: inherit; font-weight: 700;
+  padding: .4rem 1rem; border-radius: 999px; cursor: pointer; transition: background .2s ease, color .2s ease;
+}
+.chip:hover { background: var(--blush-100); }
+.chip.active { background: var(--sage-600); border-color: var(--sage-600); color: var(--white); }
+.store-controls { display: flex; gap: .6rem; flex-wrap: wrap; }
+.store-controls input { min-width: 200px; }
+.store-controls select { width: auto; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.3rem; margin-top: 1rem; }
+.product-card {
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden;
+  display: flex; flex-direction: column; box-shadow: var(--shadow-soft); transition: transform .25s ease, box-shadow .25s ease;
+}
+.product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+.product-img { position: relative; aspect-ratio: 4 / 3; background: var(--blush-100); }
+.product-img img { width: 100%; height: 100%; object-fit: cover; }
+.product-img .badge { position: absolute; top: .7rem; left: .7rem; }
+.product-body { padding: 1.1rem 1.2rem 1.3rem; display: flex; flex-direction: column; gap: .4rem; flex: 1; }
+.product-cat { color: var(--sage-600); font-weight: 700; font-size: .85rem; }
+.product-body h3 { margin: 0; font-size: 1.05rem; }
+.product-body p { color: var(--ink-soft); font-size: .92rem; margin: 0; flex: 1; }
+.product-foot { display: flex; align-items: center; justify-content: space-between; margin-top: .6rem; gap: .5rem; }
+.price { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--rose-dark); }
+
+/* ---------- 11. Cart, wallet, milk list ---------- */
+.cart-row { display: grid; grid-template-columns: 76px 1fr auto; gap: 1rem; align-items: center; padding: .9rem 0; border-bottom: 1px solid var(--line); }
+.cart-row:last-child { border-bottom: 0; }
+.cart-row img { width: 76px; height: 60px; object-fit: cover; border-radius: 12px; }
+.cart-row h4 { font-family: var(--font-body); font-size: 1rem; margin: 0 0 .2rem; }
+.cart-row .line-total { font-weight: 700; text-align: right; }
+.qty { display: inline-flex; align-items: center; border: 2px solid var(--line); border-radius: 999px; overflow: hidden; }
+.qty button { border: 0; background: var(--blush-100); width: 32px; height: 32px; font-size: 1.1rem; cursor: pointer; font-weight: 700; }
+.qty button:hover { background: var(--blush-300); }
+.qty span { min-width: 34px; text-align: center; font-weight: 700; }
+.link-btn { border: 0; background: none; color: var(--danger); font: inherit; font-size: .88rem; cursor: pointer; text-decoration: underline; padding: .3rem 0; }
+.sum-row { display: flex; justify-content: space-between; padding: .45rem 0; }
+.sum-row.total { border-top: 2px solid var(--line); margin-top: .4rem; padding-top: .8rem; font-weight: 700; font-size: 1.2rem; }
+.sum-row.discount { color: var(--sage-600); font-weight: 700; }
+
+.wallet-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+.wallet-card {
+  background: linear-gradient(135deg, var(--rose), #e58ba8); color: var(--white); border-radius: var(--radius-lg);
+  padding: 1.5rem; display: flex; flex-direction: column; gap: .3rem; box-shadow: 0 14px 30px rgba(201, 87, 123, .3);
+}
+.wallet-label { font-size: .95rem; opacity: .92; }
+.wallet-balance { font-family: var(--font-display); font-size: 2.6rem; font-weight: 700; line-height: 1.1; }
+.wallet-note { font-size: .9rem; opacity: .92; }
+.wallet-link { color: var(--white); font-weight: 700; }
+.wallet-link:hover { color: var(--white); }
+
+.milk-list { display: grid; gap: .9rem; margin-top: 1rem; }
+.milk-item { border: 1px solid var(--line); background: var(--cream); border-radius: var(--radius-md); padding: 1rem 1.1rem; }
+.milk-item h3 { margin: 0 0 .3rem; font-size: 1.05rem; }
+.milk-item p { margin: 0 0 .2rem; color: var(--ink-soft); font-size: .92rem; }
+.milk-item .btn { margin-top: .6rem; }
+
+/* ---------- 12. Modal & toast ---------- */
+.modal { position: fixed; inset: 0; background: rgba(58, 47, 59, .55); z-index: 100; display: grid; place-items: center; padding: 1rem; }
+.modal-box { position: relative; background: var(--white); width: min(520px, 100%); max-height: 90vh; overflow-y: auto; border-radius: var(--radius-lg); padding: 2rem 1.6rem 1.6rem; animation: pop .25s ease; }
+.modal-close { position: absolute; top: .6rem; right: .8rem; width: 38px; height: 38px; border: 0; border-radius: 50%; background: var(--blush-100); font-size: 1.5rem; cursor: pointer; line-height: 1; }
+.modal-close:hover { background: var(--blush-300); }
+.success-mark { display: grid; place-items: center; width: 64px; height: 64px; margin: 0 auto 1rem; border-radius: 50%; background: var(--sage-100); font-size: 2rem; }
+.modal-center { text-align: center; }
+.modal-actions { display: flex; gap: .6rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+
+.toast-container { position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%); z-index: 200; display: grid; gap: .5rem; width: min(92%, 420px); }
+.toast { background: var(--ink); color: var(--white); padding: .8rem 1.1rem; border-radius: 14px; box-shadow: 0 10px 24px rgba(0, 0, 0, .25); animation: pop .25s ease; border-left: 6px solid var(--sage-400); }
+.toast.error { border-left-color: #ff8fa3; }
+
+/* ---------- 13. Footer ---------- */
+.site-footer { background: var(--sage-800); color: #e6efe2; margin-top: 2rem; }
+.site-footer a { color: #e6efe2; display: block; text-decoration: none; padding: .15rem 0; }
+.site-footer a:hover { text-decoration: underline; color: var(--white); }
+.site-footer h4 { color: var(--white); font-family: var(--font-body); font-size: 1rem; }
+.footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1.5fr; gap: 2rem; padding: 2.5rem 0 1.5rem; }
+.brand-footer { color: var(--white); margin-bottom: .6rem; }
+.brand-footer .brand-text { color: var(--white); }
+.footer-bottom { text-align: center; padding: 1rem; border-top: 1px solid rgba(255, 255, 255, .15); font-size: .88rem; }
+
+/* ---------- 14. Animations ---------- */
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes pop { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+.page.active .hero-copy > * { animation: rise .6s ease both; }
+.page.active .hero-copy > *:nth-child(2) { animation-delay: .08s; }
+.page.active .hero-copy > *:nth-child(3) { animation-delay: .16s; }
+.page.active .hero-copy > *:nth-child(4) { animation-delay: .24s; }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* ---------- 15. Responsive ---------- */
+@media (max-width: 960px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-art-wrap { order: -1; }
+  .hero-art { width: min(300px, 70%); }
+  .two-col, .two-col-cart { grid-template-columns: 1fr; }
+  .wallet-top { grid-template-columns: 1fr 1fr; }
+  .wallet-card { grid-column: 1 / -1; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 860px) {
+  .nav-right-mobile { display: flex; }
+  .cart-desktop { display: none; }
+  .main-nav {
+    display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--cream);
+    flex-direction: column; align-items: stretch; padding: .8rem 4%; border-bottom: 1px solid var(--line);
+    box-shadow: 0 14px 24px rgba(166, 63, 98, .12);
+  }
+  .main-nav.open { display: flex; }
+  .main-nav > a { padding: .75rem 1rem; }
+  .nav-actions { margin: .6rem 0 0; flex-wrap: wrap; }
+  .nav-wrap { position: relative; }
+}
+
+@media (max-width: 600px) {
+  .field-row { grid-template-columns: 1fr; gap: 0; }
+  .wallet-top { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .cart-row { grid-template-columns: 64px 1fr; }
+  .cart-row img { width: 64px; height: 52px; }
+  .cart-row .line-total { grid-column: 2; text-align: left; }
+  .hero-buttons .btn { flex: 1 1 100%; }
+  .store-controls { width: 100%; }
+  .store-controls input { flex: 1; min-width: 0; }
+  .demo-banner { font-size: .8rem; }
+}
+
+</style>
+</head>
+<body>
+
+  <!-- ===== DEMO BANNER (always visible) ===== -->
+  <div class="demo-banner" role="note">
+    College demonstration prototype. No real waste collection, payments, logins or donations are connected to this website.
+  </div>
+
+  <!-- ===== HEADER / NAVIGATION ===== -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="#home" class="brand" aria-label="Nari Chakra home">
+        <span class="brand-mark" aria-hidden="true">♻</span>
+        <span class="brand-text">Nari Chakra</span>
+      </a>
+
+      <div class="nav-right-mobile">
+        <a href="#cart" class="cart-link" aria-label="Open cart">
+          🛒<span id="cartCount" class="cart-count">0</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <a href="#home" data-nav="home">Home</a>
+        <a href="#recycle" data-nav="recycle">Recycle</a>
+        <a href="#store" data-nav="store">Eco Store</a>
+        <a href="#milk" data-nav="milk">Milk Bank Info</a>
+        <a href="#about" data-nav="about">About &amp; Contact</a>
+        <a href="#wallet" data-nav="wallet" data-show="member">Wallet</a>
+        <a href="#dashboard" data-nav="dashboard" data-show="member">Dashboard</a>
+        <a href="#admin" data-nav="admin" data-show="admin">Admin Panel</a>
+
+        <div class="nav-actions">
+          <a href="#cart" class="cart-link cart-desktop" aria-label="Open cart">
+            🛒<span id="cartCountDesktop" class="cart-count">0</span>
+          </a>
+          <a href="#auth/login" class="btn btn-ghost btn-sm" data-show="guest">Login</a>
+          <a href="#auth/register" class="btn btn-primary btn-sm" data-show="guest">Join</a>
+          <span class="user-chip" id="userChip" data-show="loggedin"></span>
+          <button type="button" class="btn btn-ghost btn-sm" id="logoutBtn" data-show="loggedin">Logout</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- =========================================================
+         HOME
+         ========================================================= -->
+    <section class="page" id="page-home">
+      <div class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="pill">A college project for women, waste and a circular economy</p>
+            <h1>Small Actions. Powerful Change.</h1>
+            <p class="lead">
+              Nari Chakra helps women and families think differently about sanitary waste. Learn how to dispose of pads and diapers safely,
+              request a collection, earn demo reward coins, and shop for products made from recycled and plant-based materials.
+              Every step moves one item from the bin to a circular economy.
+            </p>
+            <div class="hero-buttons">
+              <a href="#auth/register" class="btn btn-primary">Join Nari Chakra</a>
+              <a href="#recycle" class="btn btn-sage">Recycle Now</a>
+              <a href="#store" class="btn btn-outline">Explore Eco Store</a>
+              <a href="#milk" class="btn btn-outline">Find a Milk Bank</a>
+            </div>
+          </div>
+
+          <!-- Hero illustration: the "chakra" (wheel) of care, leaves and recycling -->
+          <div class="hero-art-wrap" aria-hidden="false">
+            <svg viewBox="0 0 400 400" class="hero-art" role="img" aria-label="Illustration of a heart inside a rotating ring of leaves and recycling symbols">
+              <defs>
+                <radialGradient id="gBlush" cx="50%" cy="45%" r="60%">
+                  <stop offset="0" stop-color="#ffffff" />
+                  <stop offset="1" stop-color="#f9dde4" />
+                </radialGradient>
+                <linearGradient id="gLeaf" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#b4cbb0" />
+                  <stop offset="1" stop-color="#5f8461" />
+                </linearGradient>
+                <linearGradient id="gHeart" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#e58ba8" />
+                  <stop offset="1" stop-color="#c9577b" />
+                </linearGradient>
+                <path id="leafShape" d="M0 0 C 18 -26, 56 -26, 72 0 C 56 26, 18 26, 0 0 Z" />
+              </defs>
+
+              <circle cx="200" cy="200" r="188" fill="url(#gBlush)" />
+
+              <!-- rotating ring -->
+              <g class="spin">
+                <circle cx="200" cy="200" r="150" fill="none" stroke="#8fae8b" stroke-width="3" stroke-dasharray="4 11" stroke-linecap="round" />
+                <g transform="translate(200 50) rotate(-90)"><use href="#leafShape" fill="url(#gLeaf)" transform="translate(-36 0)" /></g>
+                <g transform="translate(330 275) rotate(30)"><use href="#leafShape" fill="url(#gLeaf)" transform="translate(-36 0)" /></g>
+                <g transform="translate(70 275) rotate(150)"><use href="#leafShape" fill="url(#gLeaf)" transform="translate(-36 0)" /></g>
+                <circle cx="330" cy="125" r="20" fill="#fff" stroke="#e58ba8" stroke-width="2" />
+                <text x="330" y="133" font-size="22" text-anchor="middle">♻️</text>
+                <circle cx="70" cy="125" r="20" fill="#fff" stroke="#8fae8b" stroke-width="2" />
+                <text x="70" y="133" font-size="22" text-anchor="middle">🌱</text>
+                <circle cx="200" cy="350" r="20" fill="#fff" stroke="#e58ba8" stroke-width="2" />
+                <text x="200" y="358" font-size="22" text-anchor="middle">💗</text>
+              </g>
+
+              <!-- centre -->
+              <circle cx="200" cy="200" r="98" fill="#fff" />
+              <circle cx="200" cy="200" r="98" fill="none" stroke="#f3c4d1" stroke-width="2" />
+              <path d="M200 252 C 138 208, 152 150, 200 178 C 248 150, 262 208, 200 252 Z" fill="url(#gHeart)" />
+              <g transform="translate(112 205) rotate(-25)"><use href="#leafShape" fill="url(#gLeaf)" transform="scale(.55)" /></g>
+              <g transform="translate(288 205) scale(-1 1) rotate(-25)"><use href="#leafShape" fill="url(#gLeaf)" transform="scale(.55)" /></g>
+
+              <!-- floating sparkles -->
+              <g class="float-a"><path d="M62 70 C 52 58, 70 50, 62 64 C 54 50, 72 58, 62 70 Z" fill="#e58ba8" /></g>
+              <g class="float-b"><path d="M345 330 C 335 318, 353 310, 345 324 C 337 310, 355 318, 345 330 Z" fill="#8fae8b" /></g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Impact statistics (demo) -->
+      <div class="container">
+        <div class="section-head">
+          <h2>Our impact, shown with demo numbers</h2>
+          <p class="muted">These four numbers are sample demonstration data to show how the dashboard would look. They are not real results.</p>
+        </div>
+        <div class="stats-grid" id="demoStats">
+          <div class="stat-card"><span class="stat-num" data-count="12480">0</span><span class="stat-label">Sanitary items safely handled <em>(demo data)</em></span></div>
+          <div class="stat-card"><span class="stat-num" data-count="3200">0</span><span class="stat-label">Community members joined <em>(demo data)</em></span></div>
+          <div class="stat-card"><span class="stat-num" data-count="64000">0</span><span class="stat-label">Demo reward coins issued <em>(demo data)</em></span></div>
+          <div class="stat-card"><span class="stat-num" data-count="940">0</span><span class="stat-label">Eco products ordered <em>(demo data)</em></span></div>
+        </div>
+        <p class="live-stats" id="localStats"></p>
+      </div>
+
+      <!-- How it works -->
+      <div class="container">
+        <div class="section-head">
+          <h2>How Nari Chakra works</h2>
+          <p class="muted">Four steps, from a small household habit to a rewarded contribution.</p>
+        </div>
+        <ol class="steps">
+          <li class="step"><span class="step-n">1</span><h3>Create your account</h3><p>Register as a demo member in under a minute.</p></li>
+          <li class="step"><span class="step-n">2</span><h3>Submit a request</h3><p>Tell us what type of waste, how much, and when it is convenient.</p></li>
+          <li class="step"><span class="step-n">3</span><h3>Admin review</h3><p>The demo admin approves, then marks the request as collected.</p></li>
+          <li class="step"><span class="step-n">4</span><h3>Earn and shop</h3><p>Get demo coins once, then use them for a discount in the eco store.</p></li>
+        </ol>
+      </div>
+
+      <!-- Feature cards -->
+      <div class="container">
+        <div class="section-head">
+          <h2>What you can do here</h2>
+        </div>
+        <div class="card-grid">
+          <a class="feature-card" href="#recycle"><span class="feature-icon">🌿</span><h3>Recycling requests</h3><p>Submit and track sanitary waste collection requests with clear statuses.</p></a>
+          <a class="feature-card" href="#wallet"><span class="feature-icon">🪙</span><h3>Reward wallet</h3><p>See your demo coins, verified contributions and every transaction.</p></a>
+          <a class="feature-card" href="#store"><span class="feature-icon">🛍️</span><h3>Eco store</h3><p>Browse recycled-paper and reusable products, then check out in demo mode.</p></a>
+          <a class="feature-card" href="#milk"><span class="feature-icon">🤱</span><h3>Milk bank information</h3><p>Learn how hospital-based milk banks work and how to contact one.</p></a>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="cta-band">
+          <div>
+            <h2>Ready to start your first small action?</h2>
+            <p>Create a free demo account and submit a recycling request.</p>
+          </div>
+          <a href="#auth/register" class="btn btn-primary">Join Nari Chakra</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         LOGIN / REGISTER
+         ========================================================= -->
+    <section class="page" id="page-auth">
+      <div class="container narrow">
+        <div class="auth-card">
+          <div class="tabs" role="tablist">
+            <button type="button" class="tab" id="tabLogin" role="tab" data-tab="login">Login</button>
+            <button type="button" class="tab" id="tabRegister" role="tab" data-tab="register">Register</button>
+          </div>
+
+          <div class="notice notice-warn">
+            <strong>Demonstration only.</strong> Accounts are stored in this browser's LocalStorage. This is not secure enough for a real website,
+            where passwords must be checked and protected on a server. Please do not use a real password.
+          </div>
+
+          <!-- Login panel -->
+          <div id="loginPanel">
+            <h2>Welcome back</h2>
+            <form id="loginForm" novalidate>
+              <div class="field">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" name="email" autocomplete="email" placeholder="you@example.com" />
+                <small class="error"></small>
+              </div>
+              <div class="field">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" name="password" autocomplete="current-password" placeholder="Your password" />
+                <small class="error"></small>
+              </div>
+              <div class="form-msg" role="alert"></div>
+              <button type="submit" class="btn btn-primary btn-block">Log in</button>
+            </form>
+            <p class="muted small-top">New here? <a href="#auth/register">Create an account</a></p>
+            <details class="demo-creds">
+              <summary>Demo admin login (for presentation)</summary>
+              <p>Email: <code>admin@narichakra.demo</code><br />Password: <code>Admin@123</code></p>
+            </details>
+          </div>
+
+          <!-- Register panel -->
+          <div id="registerPanel" hidden>
+            <h2>Join Nari Chakra</h2>
+            <form id="registerForm" novalidate>
+              <div class="field">
+                <label for="regName">Full name</label>
+                <input type="text" id="regName" name="name" autocomplete="name" placeholder="e.g. Ananya Sharma" />
+                <small class="error"></small>
+              </div>
+              <div class="field">
+                <label for="regEmail">Email</label>
+                <input type="email" id="regEmail" name="email" autocomplete="email" placeholder="you@example.com" />
+                <small class="error"></small>
+              </div>
+              <div class="field">
+                <label for="regPassword">Password</label>
+                <input type="password" id="regPassword" name="password" autocomplete="new-password" placeholder="At least 6 characters, with a letter and a number" />
+                <small class="error"></small>
+              </div>
+              <div class="field">
+                <label for="regConfirm">Confirm password</label>
+                <input type="password" id="regConfirm" name="confirm" autocomplete="new-password" placeholder="Type the password again" />
+                <small class="error"></small>
+              </div>
+              <div class="field field-check">
+                <label class="check">
+                  <input type="checkbox" name="agree" />
+                  <span>I understand this is a college demo and my data stays only in this browser.</span>
+                </label>
+                <small class="error"></small>
+              </div>
+              <div class="form-msg" role="alert"></div>
+              <button type="submit" class="btn btn-primary btn-block">Create account</button>
+            </form>
+            <p class="muted small-top">Already registered? <a href="#auth/login">Log in</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         RECYCLE
+         ========================================================= -->
+    <section class="page" id="page-recycle">
+      <div class="container">
+        <div class="page-title">
+          <h1>Recycle with Nari Chakra</h1>
+          <p class="lead">Request a collection for used disposable diapers or sanitary pads. Requests start as <strong>Pending Review</strong> and are never marked as collected automatically.</p>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <div class="panel">
+              <h2>New collection request</h2>
+              <div id="recycleGate" class="notice notice-info" hidden>
+                Please <a href="#auth/login">log in</a> or <a href="#auth/register">register</a> as a member to submit a request.
+              </div>
+              <form id="recycleForm" novalidate>
+                <fieldset id="recycleFields">
+                  <div class="field">
+                    <label for="recCategory">Waste category</label>
+                    <select id="recCategory" name="category">
+                      <option value="">Choose a category</option>
+                      <option value="diapers">Disposable diapers</option>
+                      <option value="pads">Sanitary pads</option>
+                    </select>
+                    <small class="error"></small>
+                  </div>
+                  <div class="field-row">
+                    <div class="field">
+                      <label for="recQty">Approximate quantity (items)</label>
+                      <input type="number" id="recQty" name="quantity" min="1" max="500" step="1" placeholder="e.g. 20" />
+                      <small class="error"></small>
+                    </div>
+                    <div class="field">
+                      <label for="recDate">Preferred collection date</label>
+                      <input type="date" id="recDate" name="date" />
+                      <small class="error"></small>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="recArea">General collection area</label>
+                    <input type="text" id="recArea" name="area" maxlength="80" placeholder="Area or locality only, e.g. Sector 21" />
+                    <small class="hint">Please do not enter your full address.</small>
+                    <small class="error"></small>
+                  </div>
+                  <div class="field">
+                    <label for="recNotes">Instructions (optional)</label>
+                    <textarea id="recNotes" name="notes" rows="3" maxlength="300" placeholder="Anything the collection partner should know"></textarea>
+                    <small class="error"></small>
+                  </div>
+                  <div class="form-msg" role="alert"></div>
+                  <button type="submit" class="btn btn-primary">Submit request</button>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+
+          <aside class="panel panel-sage">
+            <h2>Safe disposal guidance</h2>
+            <ul class="tick-list">
+              <li>Wrap used pads or diapers in paper or a disposal pouch before putting them in a bag.</li>
+              <li>Keep them separate from wet kitchen waste and dry recyclables, and follow your local municipal rules.</li>
+              <li>Never flush pads or diapers. Never burn them.</li>
+              <li>Empty solid waste from diapers into the toilet where local guidance allows.</li>
+              <li>Wash your hands well after handling waste.</li>
+            </ul>
+            <div class="notice notice-warn">
+              In this prototype, no real collection takes place. In a real project, collection and treatment must be handled by authorised waste-management partners.
+            </div>
+          </aside>
+        </div>
+
+        <div class="panel">
+          <h2>My requests</h2>
+          <div id="myRequests"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         WALLET
+         ========================================================= -->
+    <section class="page" id="page-wallet">
+      <div class="container">
+        <div class="page-title">
+          <h1>My reward wallet</h1>
+          <p class="lead">Coins are demo rewards, not real money. They cannot be withdrawn or exchanged for cash.</p>
+        </div>
+
+        <div class="wallet-top">
+          <div class="wallet-card">
+            <span class="wallet-label">Current balance</span>
+            <span class="wallet-balance"><span id="walletBalance">0</span> coins</span>
+            <span class="wallet-note">Use coins for a demo discount at checkout.</span>
+          </div>
+          <div class="stat-card"><span class="stat-num" id="walletVerified">0</span><span class="stat-label">Verified contributions</span></div>
+          <div class="stat-card"><span class="stat-num" id="walletEarned">0</span><span class="stat-label">Total coins earned</span></div>
+        </div>
+
+        <div class="notice notice-info">
+          <strong>How coins are earned (demo rule):</strong> <span id="ruleCoins">20</span> coins are awarded once for each request that the admin has approved <em>and</em> marked as collected.
+          Submitting a request never gives coins by itself, and the same request can never be rewarded twice.
+        </div>
+
+        <div class="panel">
+          <h2>Transaction history</h2>
+          <div id="walletTx"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         STORE
+         ========================================================= -->
+    <section class="page" id="page-store">
+      <div class="container">
+        <div class="page-title">
+          <h1>Eco-friendly store</h1>
+          <p class="lead">A sample catalogue of recycled and reusable products.</p>
+        </div>
+        <div class="notice notice-warn">
+          All products, images and prices are <strong>demonstration data</strong>. Nothing here can be bought for real.
+          Products are not claimed to be made from used sanitary pads.
+        </div>
+
+        <div class="store-tools">
+          <div class="chips" id="categoryChips" role="group" aria-label="Filter by category"></div>
+          <div class="store-controls">
+            <label class="visually-hidden" for="searchInput">Search products</label>
+            <input type="search" id="searchInput" placeholder="Search products" />
+            <label class="visually-hidden" for="sortSelect">Sort products</label>
+            <select id="sortSelect">
+              <option value="featured">Featured</option>
+              <option value="low">Price: low to high</option>
+              <option value="high">Price: high to low</option>
+              <option value="name">Name: A to Z</option>
+            </select>
+          </div>
+        </div>
+        <p class="muted" id="productCount"></p>
+        <div class="product-grid" id="productGrid"></div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CART / CHECKOUT
+         ========================================================= -->
+    <section class="page" id="page-cart">
+      <div class="container">
+        <div class="page-title">
+          <h1>Your cart</h1>
+          <p class="lead">Review your items and place a demo order. No real payment is taken.</p>
+        </div>
+
+        <div class="two-col two-col-cart">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Items</h2>
+              <button type="button" class="btn btn-ghost btn-sm" data-action="clear-cart">Clear cart</button>
+            </div>
+            <div id="cartItems"></div>
+          </div>
+
+          <div>
+            <div class="panel">
+              <h2>Order summary</h2>
+              <div id="cartSummary"></div>
+            </div>
+
+            <div class="panel">
+              <h2>Demo checkout</h2>
+              <div class="notice notice-warn">Please do not enter any real card, UPI or bank details. This checkout is a simulation.</div>
+              <form id="checkoutForm" novalidate>
+                <div class="field">
+                  <label for="coName">Full name</label>
+                  <input type="text" id="coName" name="name" autocomplete="name" />
+                  <small class="error"></small>
+                </div>
+                <div class="field">
+                  <label for="coPhone">Phone number (10 digits)</label>
+                  <input type="tel" id="coPhone" name="phone" inputmode="numeric" maxlength="10" placeholder="9876543210" />
+                  <small class="error"></small>
+                </div>
+                <div class="field">
+                  <label for="coAddress">Delivery address (sample text is fine)</label>
+                  <textarea id="coAddress" name="address" rows="2" maxlength="200"></textarea>
+                  <small class="error"></small>
+                </div>
+                <div class="field">
+                  <label for="coPay">Payment method (simulated)</label>
+                  <select id="coPay" name="payment">
+                    <option value="Cash on delivery (demo)">Cash on delivery (demo)</option>
+                    <option value="UPI (demo, no real payment)">UPI (demo, no real payment)</option>
+                  </select>
+                </div>
+                <div id="coinOption"></div>
+                <div class="form-msg" role="alert"></div>
+                <button type="submit" class="btn btn-primary btn-block">Place demo order</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         MILK BANK INFORMATION
+         ========================================================= -->
+    <section class="page" id="page-milk">
+      <div class="container">
+        <div class="page-title">
+          <h1>Donor human milk and milk banks</h1>
+          <p class="lead">Information only. Nari Chakra does not collect, exchange or deliver breast milk.</p>
+        </div>
+
+        <div class="notice notice-warn">
+          <strong>Important:</strong> Breast milk donation must be voluntary and handled by qualified healthcare facilities. We do not support milk exchange, home collection or delivery between individuals, and there are no rewards or coins for donating milk.
+        </div>
+
+        <div class="card-grid card-grid-3">
+          <div class="info-card">
+            <h3>Why donor milk matters</h3>
+            <p>Some newborns, especially those born early or very small, cannot get enough of their own mother's milk. Screened and pasteurised donor milk from a milk bank can help protect these babies while they grow stronger.</p>
+          </div>
+          <div class="info-card">
+            <h3>What a milk bank does</h3>
+            <p>A hospital-based milk bank screens donors, tests and pasteurises donated milk, stores it safely, and gives it to babies under medical guidance. These steps keep the milk safe.</p>
+          </div>
+          <div class="info-card">
+            <h3>Why hospitals only</h3>
+            <p>Milk shared informally can carry infections or be stored unsafely. Working through a qualified facility protects both the donor and the baby.</p>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h2>General eligibility information</h2>
+            <p class="muted">Each facility sets its own rules. Always confirm with the hospital before you decide.</p>
+            <ul class="tick-list">
+              <li>The donor is usually a healthy lactating mother who has enough milk for her own baby.</li>
+              <li>Most facilities ask about medical history, medicines, and lifestyle, and may request a blood test.</li>
+              <li>Donation is a free, voluntary gift. It is never paid for or rewarded.</li>
+              <li>The facility's staff will explain how to express, store and hand over milk safely.</li>
+            </ul>
+            <div class="notice notice-info">This page is general awareness only and is not medical advice. Please speak to a doctor or lactation consultant.</div>
+          </div>
+
+          <div class="panel">
+            <h2>Find a milk bank</h2>
+            <div class="notice notice-warn">Every listing below is <strong>DEMO data</strong> with placeholder contacts. These are not real hospitals. In a real project, only verified facilities would be listed.</div>
+            <label class="visually-hidden" for="milkSearch">Search milk banks</label>
+            <input type="search" id="milkSearch" placeholder="Search by name or city" />
+            <div id="milkList" class="milk-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         DASHBOARD
+         ========================================================= -->
+    <section class="page" id="page-dashboard">
+      <div class="container">
+        <div class="page-title">
+          <h1 id="dashWelcome">Welcome</h1>
+          <p class="lead">Everything you have done on Nari Chakra, in one place.</p>
+        </div>
+
+        <div class="wallet-top">
+          <div class="wallet-card">
+            <span class="wallet-label">Reward coin balance</span>
+            <span class="wallet-balance"><span id="dashCoins">0</span> coins</span>
+            <a href="#wallet" class="wallet-link">Open wallet</a>
+          </div>
+          <div class="stat-card"><span class="stat-num" id="dashReqCount">0</span><span class="stat-label">Requests submitted</span></div>
+          <div class="stat-card"><span class="stat-num" id="dashCollected">0</span><span class="stat-label">Verified contributions</span></div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h2>Recycling requests</h2>
+            <div id="dashRequests"></div>
+          </div>
+          <div class="panel">
+            <h2>Recent transactions</h2>
+            <div id="dashTx"></div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h2>Cart summary</h2>
+            <div id="dashCart"></div>
+          </div>
+          <div class="panel">
+            <h2>Environmental contribution</h2>
+            <div id="dashImpact"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Order history</h2>
+          <div id="dashOrders"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ABOUT + CONTACT
+         ========================================================= -->
+    <section class="page" id="page-about">
+      <div class="container">
+        <div class="page-title">
+          <h1>About Nari Chakra</h1>
+          <p class="lead">Nari means woman. Chakra means wheel. Together: a wheel of care that keeps turning.</p>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h2>Our mission</h2>
+            <p>To make responsible sanitary waste handling easier to talk about and easier to practise, and to connect that care with opportunities for women.</p>
+            <h3>Objectives</h3>
+            <ul class="tick-list">
+              <li>Spread awareness about safe disposal of pads and diapers.</li>
+              <li>Show how a request, approval and reward system could work.</li>
+              <li>Promote reusable and recycled everyday products.</li>
+              <li>Share trustworthy information about hospital-based milk banks.</li>
+            </ul>
+          </div>
+          <div class="panel panel-sage">
+            <h2>Environmental benefits</h2>
+            <ul class="tick-list">
+              <li>Less sanitary waste mixed into ordinary household garbage.</li>
+              <li>Safer work for people who handle waste.</li>
+              <li>More demand for reusable bags and recycled paper.</li>
+              <li>A habit of thinking about where things go after we use them.</li>
+            </ul>
+            <h3>Women empowerment goals</h3>
+            <ul class="tick-list">
+              <li>Open, stigma-free conversation about menstrual and infant care waste.</li>
+              <li>Possible livelihood and training opportunities in recycling and craft work.</li>
+              <li>Clear, reliable health information for mothers.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Limitations of this project</h2>
+          <ul class="tick-list">
+            <li>This is a college demonstration prototype. Nothing is connected to real waste-management or donation services.</li>
+            <li>Login, data and admin roles run only in the browser using LocalStorage, so they are not secure.</li>
+            <li>No real money moves. Reward coins and prices are demo values, and all statistics are sample data.</li>
+            <li>Product details and milk bank listings are examples, not verified facts.</li>
+          </ul>
+        </div>
+
+        <!-- TEAM: replace the placeholders below with your own names and roles -->
+        <div class="panel">
+          <h2>The team</h2>
+          <div class="card-grid card-grid-3">
+            <div class="team-card"><span class="avatar">🌸</span><h3>Team member 1</h3><p class="muted">Add name and role</p></div>
+            <div class="team-card"><span class="avatar">🌿</span><h3>Team member 2</h3><p class="muted">Add name and role</p></div>
+            <div class="team-card"><span class="avatar">💗</span><h3>Team member 3</h3><p class="muted">Add name and role</p></div>
+          </div>
+        </div>
+
+        <div class="panel" id="contact">
+          <h2>Contact us</h2>
+          <p class="muted">Questions, feedback or ideas? This form saves your message in this browser only (demo).</p>
+          <form id="contactForm" novalidate>
+            <div class="field-row">
+              <div class="field">
+                <label for="ctName">Your name</label>
+                <input type="text" id="ctName" name="name" autocomplete="name" />
+                <small class="error"></small>
+              </div>
+              <div class="field">
+                <label for="ctEmail">Email</label>
+                <input type="email" id="ctEmail" name="email" autocomplete="email" />
+                <small class="error"></small>
+              </div>
+            </div>
+            <div class="field">
+              <label for="ctSubject">Subject</label>
+              <input type="text" id="ctSubject" name="subject" maxlength="100" />
+              <small class="error"></small>
+            </div>
+            <div class="field">
+              <label for="ctMessage">Message</label>
+              <textarea id="ctMessage" name="message" rows="4" maxlength="600"></textarea>
+              <small class="error"></small>
+            </div>
+            <div class="form-msg" role="alert"></div>
+            <button type="submit" class="btn btn-primary">Send message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ADMIN (SIMULATED)
+         ========================================================= -->
+    <section class="page" id="page-admin">
+      <div class="container">
+        <div class="page-title">
+          <h1>Admin demonstration panel</h1>
+          <p class="lead">Review requests, approve or reject, mark as collected, and award the demo reward once.</p>
+        </div>
+
+        <div class="notice notice-warn">
+          <strong>Simulated admin panel.</strong> The role check happens in the browser, so anyone with browser tools could bypass it. A real website must check admin rights on a secure server.
+        </div>
+
+        <div class="stats-grid" id="adminStats"></div>
+
+        <div class="panel">
+          <h2>Recycling requests</h2>
+          <div id="adminRequests"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Orders</h2>
+          <div id="adminOrders"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Demo tools</h2>
+          <p class="muted">Clears all demo users, requests, coins, carts and orders saved in this browser. Useful before a fresh presentation.</p>
+          <button type="button" class="btn btn-danger" id="resetDemoBtn">Reset all demo data</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="#home" class="brand brand-footer"><span class="brand-mark" aria-hidden="true">♻</span><span class="brand-text">Nari Chakra</span></a>
+        <p>Empowering Women, Reimagining Waste.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="#recycle">Recycle</a>
+        <a href="#store">Eco Store</a>
+        <a href="#milk">Milk Bank Info</a>
+        <a href="#about">About &amp; Contact</a>
+      </div>
+      <div>
+        <h4>Please note</h4>
+        <p>This is a student demonstration prototype. All data is stored only in your browser. It is not a real service.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">Nari Chakra college project. Demo data only.</div>
+  </footer>
+
+  <!-- ===== MODAL + TOASTS ===== -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitleHolder">
+      <button type="button" class="modal-close" id="modalClose" aria-label="Close dialog">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script>
+/* =========================================================
+   NARI CHAKRA – script.js  (COLLEGE DEMONSTRATION PROTOTYPE)
+   Plain JavaScript. All data is saved in the browser's LocalStorage.
+
+   Contents
+   1.  Settings & LocalStorage helpers
+   2.  Small utility functions (escape HTML, money, dates, toast, modal)
+   3.  Form validation helpers
+   4.  Accounts: register, login, logout
+   5.  Recycling requests
+   6.  Reward coins (wallet)
+   7.  Products, search, filters
+   8.  Cart, checkout, orders
+   9.  Milk bank information (demo listings)
+   10. Dashboard
+   11. Admin panel (simulated)
+   12. Contact form
+   13. Home page statistics
+   14. Router (page navigation) and start-up
+   ========================================================= */
+'use strict';
+
+/* =========================================================
+   1. SETTINGS & LOCALSTORAGE HELPERS
+   ========================================================= */
+
+// Keys used in LocalStorage. All start with "nc_" so we can find and clear them easily.
+const KEYS = {
+  users: 'nc_users',
+  session: 'nc_session',          // id of the logged-in user
+  requests: 'nc_requests',
+  transactions: 'nc_transactions',
+  orders: 'nc_orders',
+  contacts: 'nc_contacts',
+  enquiries: 'nc_enquiries',
+  cartPrefix: 'nc_cart_'          // + user id (or "guest")
+};
+
+const REWARD_COINS = 20;          // demo rule: coins for one approved + collected request
+const COIN_VALUE_INR = 1;         // demo rule: 1 coin = Rs 1 discount at checkout
+const MAX_COIN_DISCOUNT = 0.5;    // coins can pay for at most 50% of the subtotal
+const MAX_QTY_PER_ITEM = 10;
+
+// Read a value from LocalStorage (returns "fallback" if missing or broken).
+function load(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw === null ? fallback : JSON.parse(raw);
+  } catch (err) {
+    return fallback;
+  }
+}
+
+// Save a value to LocalStorage as JSON.
+function save(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch (err) {
+    toast('Could not save data in this browser. Is storage blocked?', 'error');
+    return false;
+  }
+}
+
+/* =========================================================
+   2. SMALL UTILITY FUNCTIONS
+   ========================================================= */
+
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+// SECURITY: escape text before putting it inside HTML so that typed text can never run as code.
+function esc(value) {
+  return String(value).replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+// Format a number as Indian rupees, e.g. 1299 -> "₹1,299"
+function inr(amount) {
+  return '₹' + Number(amount).toLocaleString('en-IN');
+}
+
+// Make a readable unique ID such as "REQ-LK3F9A2XQ"
+function makeId(prefix) {
+  return prefix + '-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
+}
+
+// Today's date as YYYY-MM-DD in the user's own time zone.
+function todayISO() {
+  const d = new Date();
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  return d.toISOString().slice(0, 10);
+}
+
+// Show a date like "14 Oct 2026". Accepts "YYYY-MM-DD" or a full ISO date-time.
+function formatDate(iso) {
+  const d = new Date(iso.length === 10 ? iso + 'T00:00:00' : iso);
+  if (isNaN(d)) return '-';
+  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+// Small pop-up message at the bottom of the screen.
+function toast(message, type = 'ok') {
+  const box = $('#toastContainer');
+  const el = document.createElement('div');
+  el.className = 'toast' + (type === 'error' ? ' error' : '');
+  el.textContent = message;
+  box.appendChild(el);
+  setTimeout(() => el.remove(), 3600);
+}
+
+// Pop-up dialog (used for order confirmation and milk bank enquiry).
+let lastFocused = null;
+function openModal(html) {
+  lastFocused = document.activeElement;
+  $('#modalContent').innerHTML = html;
+  $('#modal').hidden = false;
+  $('#modalClose').focus();
+}
+function closeModal() {
+  $('#modal').hidden = true;
+  $('#modalContent').innerHTML = '';
+  if (lastFocused && lastFocused.focus) lastFocused.focus();
+}
+
+// Go to a page. If we are already there, just draw it again.
+function go(hash) {
+  if (location.hash === hash) route();
+  else location.hash = hash;
+}
+
+// A friendly "nothing here yet" box.
+function emptyState(icon, text, linkHref, linkText) {
+  const link = linkHref ? `<a href="${linkHref}" class="btn btn-primary btn-sm">${esc(linkText)}</a>` : '';
+  return `<div class="empty"><span class="empty-icon">${icon}</span><p>${esc(text)}</p>${link}</div>`;
+}
+
+/* =========================================================
+   3. FORM VALIDATION HELPERS
+   ========================================================= */
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+// Get a form control by its name attribute.
+function field(form, name) {
+  return form.elements.namedItem(name);
+}
+
+// Show (or clear) an error message under an input.
+function setError(input, message) {
+  const wrapper = input.closest('.field');
+  if (!wrapper) return;
+  wrapper.classList.toggle('has-error', Boolean(message));
+  const errorEl = $('.error', wrapper);
+  if (errorEl) errorEl.textContent = message || '';
+}
+
+function clearErrors(form) {
+  $$('.field', form).forEach((f) => {
+    f.classList.remove('has-error');
+    const e = $('.error', f);
+    if (e) e.textContent = '';
+  });
+  showFormMessage(form, '', '');
+}
+
+// Show a success or error box at the bottom of a form.
+function showFormMessage(form, type, text) {
+  const box = $('.form-msg', form);
+  if (!box) return;
+  box.textContent = text;
+  box.className = 'form-msg' + (text ? ' show ' + (type === 'success' ? 'success' : 'error-msg') : '');
+}
+
+/* =========================================================
+   4. ACCOUNTS: REGISTER, LOGIN, LOGOUT
+   NOTE: This is DEMO authentication. Real websites must check
+   passwords on a secure server and never store them in the browser.
+   ========================================================= */
+
+function getUsers() { return load(KEYS.users, []); }
+
+// A very simple "scrambler" so passwords are not stored as plain text.
+// This is NOT real security. It only demonstrates the idea of hashing.
+function hashPassword(password, salt) {
+  let h = 5381;
+  const text = salt + '|' + password;
+  for (let i = 0; i < text.length; i++) {
+    h = ((h << 5) + h + text.charCodeAt(i)) >>> 0;
+  }
+  return 'h' + h.toString(16);
+}
+
+// Make sure a demo admin account exists so the admin panel can be shown.
+function seedAdmin() {
+  const users = getUsers();
+  if (!users.some((u) => u.role === 'admin')) {
+    users.push({
+      id: 'U-ADMIN',
+      name: 'Demo Admin',
+      email: 'admin@narichakra.demo',
+      passHash: hashPassword('Admin@123', 'admin@narichakra.demo'),
+      role: 'admin',
+      createdAt: new Date().toISOString()
+    });
+    save(KEYS.users, users);
+  }
+}
+
+// Who is logged in right now? (null if nobody)
+function currentUser() {
+  const id = load(KEYS.session, null);
+  if (!id) return null;
+  return getUsers().find((u) => u.id === id) || null;
+}
+function isMember(user) { return Boolean(user) && user.role === 'user'; }
+function isAdmin(user) { return Boolean(user) && user.role === 'admin'; }
+
+// Where to go after a successful login (set when a protected page is opened while logged out).
+let afterLogin = null;
+
+// When a guest logs in, move their guest cart into their own cart.
+function mergeGuestCart(userId) {
+  const guestCart = load(KEYS.cartPrefix + 'guest', []);
+  if (!guestCart.length) return;
+  const userKey = KEYS.cartPrefix + userId;
+  const cart = load(userKey, []);
+  guestCart.forEach((g) => {
+    const existing = cart.find((i) => i.id === g.id);
+    if (existing) existing.qty = Math.min(MAX_QTY_PER_ITEM, existing.qty + g.qty);
+    else cart.push(g);
+  });
+  save(userKey, cart);
+  localStorage.removeItem(KEYS.cartPrefix + 'guest');
+}
+
+function handleRegister(form) {
+  clearErrors(form);
+  let ok = true;
+  const name = field(form, 'name').value.trim();
+  const email = field(form, 'email').value.trim().toLowerCase();
+  const password = field(form, 'password').value;
+  const confirm = field(form, 'confirm').value;
+  const agree = field(form, 'agree').checked;
+
+  if (name.length < 2 || name.length > 50) { setError(field(form, 'name'), 'Enter your name (2 to 50 characters).'); ok = false; }
+  if (!EMAIL_PATTERN.test(email)) { setError(field(form, 'email'), 'Enter a valid email, like name@example.com.'); ok = false; }
+  if (password.length < 6 || !/[A-Za-z]/.test(password) || !/\d/.test(password)) {
+    setError(field(form, 'password'), 'Use at least 6 characters with at least one letter and one number.'); ok = false;
+  }
+  if (confirm !== password) { setError(field(form, 'confirm'), 'The two passwords do not match.'); ok = false; }
+  if (!agree) { setError(field(form, 'agree'), 'Please tick this box to continue.'); ok = false; }
+  if (!ok) return;
+
+  const users = getUsers();
+  if (users.some((u) => u.email === email)) {
+    setError(field(form, 'email'), 'This email is already registered. Try logging in instead.');
+    return;
+  }
+
+  const user = {
+    id: makeId('U'),
+    name,
+    email,
+    passHash: hashPassword(password, email),
+    role: 'user',
+    createdAt: new Date().toISOString()
+  };
+  users.push(user);
+  save(KEYS.users, users);
+  save(KEYS.session, user.id);
+  mergeGuestCart(user.id);
+  form.reset();
+  toast('Welcome to Nari Chakra, ' + name.split(' ')[0] + '!');
+  const target = afterLogin || '#dashboard';
+  afterLogin = null;
+  go(target);
+}
+
+function handleLogin(form) {
+  clearErrors(form);
+  let ok = true;
+  const email = field(form, 'email').value.trim().toLowerCase();
+  const password = field(form, 'password').value;
+
+  if (!EMAIL_PATTERN.test(email)) { setError(field(form, 'email'), 'Enter a valid email address.'); ok = false; }
+  if (!password) { setError(field(form, 'password'), 'Enter your password.'); ok = false; }
+  if (!ok) return;
+
+  const user = getUsers().find((u) => u.email === email);
+  if (!user || user.passHash !== hashPassword(password, email)) {
+    showFormMessage(form, 'error', 'Invalid email or password. Please check your details or register first.');
+    return;
+  }
+
+  save(KEYS.session, user.id);
+  mergeGuestCart(user.id);
+  form.reset();
+  toast('Logged in as ' + user.name);
+  const target = afterLogin || (isAdmin(user) ? '#admin' : '#dashboard');
+  afterLogin = null;
+  go(target);
+}
+
+function logout() {
+  localStorage.removeItem(KEYS.session);
+  useCoinsChecked = false;
+  toast('You have been logged out.');
+  go('#home');
+}
+
+function showAuthTab(tab) {
+  const isLogin = tab !== 'register';
+  $('#loginPanel').hidden = !isLogin;
+  $('#registerPanel').hidden = isLogin;
+  $('#tabLogin').classList.toggle('active', isLogin);
+  $('#tabRegister').classList.toggle('active', !isLogin);
+  $('#tabLogin').setAttribute('aria-selected', String(isLogin));
+  $('#tabRegister').setAttribute('aria-selected', String(!isLogin));
+}
+
+/* =========================================================
+   5. RECYCLING REQUESTS
+   Status flow: Pending Review -> Approved -> Collected
+                Pending Review -> Rejected
+   A request is NEVER collected automatically. Only the (demo) admin can change status.
+   ========================================================= */
+
+const CATEGORY_LABELS = { diapers: 'Disposable diapers', pads: 'Sanitary pads' };
+
+function getRequests() { return load(KEYS.requests, []); }
+
+function statusBadge(status) {
+  const cls = status.toLowerCase().split(' ')[0]; // "pending", "approved", ...
+  return `<span class="badge badge-${cls}">${esc(status)}</span>`;
+}
+
+function handleRecycleSubmit(form) {
+  const user = currentUser();
+  if (!isMember(user)) { toast('Please log in as a member first.', 'error'); return; }
+
+  clearErrors(form);
+  let ok = true;
+  const category = field(form, 'category').value;
+  const qty = Number(field(form, 'quantity').value);
+  const date = field(form, 'date').value;
+  const area = field(form, 'area').value.trim();
+  const notes = field(form, 'notes').value.trim();
+
+  if (!CATEGORY_LABELS[category]) { setError(field(form, 'category'), 'Please choose a waste category.'); ok = false; }
+  if (!Number.isInteger(qty) || qty < 1 || qty > 500) { setError(field(form, 'quantity'), 'Enter a whole number between 1 and 500.'); ok = false; }
+  if (!date) { setError(field(form, 'date'), 'Choose your preferred collection date.'); ok = false; }
+  else if (date < todayISO()) { setError(field(form, 'date'), 'The date cannot be in the past.'); ok = false; }
+  if (area.length < 3 || area.length > 80) { setError(field(form, 'area'), 'Enter your general area (3 to 80 characters).'); ok = false; }
+  if (notes.length > 300) { setError(field(form, 'notes'), 'Please keep instructions under 300 characters.'); ok = false; }
+  if (!ok) return;
+
+  const requests = getRequests();
+  let id = makeId('REQ');
+  while (requests.some((r) => r.id === id)) id = makeId('REQ'); // make sure the ID is unique
+
+  requests.push({
+    id,
+    userId: user.id,
+    category,
+    quantity: qty,
+    date,
+    area,
+    notes,
+    status: 'Pending Review',   // always starts as pending
+    rewarded: false,
+    createdAt: new Date().toISOString()
+  });
+  save(KEYS.requests, requests);
+
+  form.reset();
+  showFormMessage(form, 'success', `Request submitted. Your request ID is ${id}. Status: Pending Review.`);
+  toast('Request ' + id + ' submitted.');
+  renderRecycle();
+}
+
+function renderRecycle() {
+  const user = currentUser();
+  const member = isMember(user);
+  const gate = $('#recycleGate');
+
+  gate.hidden = member;
+  if (!member) {
+    gate.innerHTML = isAdmin(user)
+      ? 'You are logged in as the demo admin. Please log in with a member account to submit requests.'
+      : 'Please <a href="#auth/login">log in</a> or <a href="#auth/register">register</a> as a member to submit a request.';
+  }
+  $('#recycleFields').disabled = !member;
+  $('#recDate').min = todayISO();
+
+  const box = $('#myRequests');
+  if (!member) {
+    box.innerHTML = emptyState('🔒', 'Log in to see your requests and their status.', '#auth/login', 'Log in');
+    return;
+  }
+  const mine = getRequests().filter((r) => r.userId === user.id).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  if (!mine.length) {
+    box.innerHTML = emptyState('🌿', 'You have not submitted any requests yet. Use the form above to send your first one.');
+    return;
+  }
+  box.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr><th>Request ID</th><th>Category</th><th>Qty</th><th>Preferred date</th><th>Area</th><th>Status</th><th>Reward</th></tr></thead>
+    <tbody>${mine.map((r) => `
+      <tr>
+        <td><strong>${esc(r.id)}</strong>${r.notes ? `<small>Note: ${esc(r.notes)}</small>` : ''}</td>
+        <td>${esc(CATEGORY_LABELS[r.category] || r.category)}</td>
+        <td>${esc(r.quantity)}</td>
+        <td>${esc(formatDate(r.date))}</td>
+        <td>${esc(r.area)}</td>
+        <td>${statusBadge(r.status)}</td>
+        <td>${r.rewarded ? `<span class="coins-plus">+${REWARD_COINS} coins</span>` : '<span class="muted">Not rewarded yet</span>'}</td>
+      </tr>`).join('')}
+    </tbody></table></div>`;
+}
+
+/* =========================================================
+   6. REWARD COINS (WALLET)
+   Balance = sum of all of the user's transactions.
+   Earn: +20 coins, only once per request, only after "Collected" (done by admin).
+   Redeem: negative transaction created at checkout.
+   ========================================================= */
+
+function getTransactions() { return load(KEYS.transactions, []); }
+
+function userTransactions(userId) {
+  return getTransactions().filter((t) => t.userId === userId).sort((a, b) => b.date.localeCompare(a.date));
+}
+
+function balanceOf(userId) {
+  return getTransactions().filter((t) => t.userId === userId).reduce((sum, t) => sum + t.coins, 0);
+}
+
+function verifiedContributions(userId) {
+  return getRequests().filter((r) => r.userId === userId && r.status === 'Collected');
+}
+
+function transactionTable(list) {
+  if (!list.length) {
+    return emptyState('🪙', 'No coin activity yet. Coins appear here after the admin approves and collects one of your requests.', '#recycle', 'Make a request');
+  }
+  return `<div class="table-wrap"><table>
+    <thead><tr><th>Date</th><th>Description</th><th>Coins</th><th>Transaction ID</th></tr></thead>
+    <tbody>${list.map((t) => `
+      <tr>
+        <td>${esc(formatDate(t.date))}</td>
+        <td>${esc(t.note)}</td>
+        <td class="${t.coins >= 0 ? 'coins-plus' : 'coins-minus'}">${t.coins >= 0 ? '+' : ''}${esc(t.coins)}</td>
+        <td><small>${esc(t.id)}</small></td>
+      </tr>`).join('')}
+    </tbody></table></div>`;
+}
+
+function renderWallet() {
+  const user = currentUser();
+  if (!user) return;
+  const tx = userTransactions(user.id);
+  const earned = tx.filter((t) => t.type === 'earn').reduce((s, t) => s + t.coins, 0);
+  $('#walletBalance').textContent = balanceOf(user.id);
+  $('#walletVerified').textContent = verifiedContributions(user.id).length;
+  $('#walletEarned').textContent = earned;
+  $('#ruleCoins').textContent = REWARD_COINS;
+  $('#walletTx').innerHTML = transactionTable(tx);
+}
+
+/* =========================================================
+   7. PRODUCTS, SEARCH AND FILTERS (all sample / demo data)
+   ========================================================= */
+
+const PRODUCTS = [
+  { id: 'p1', name: 'Recycled Paper Notebook (A5)', category: 'Notebooks', price: 129, emoji: '📓', c1: '#f9dde4', c2: '#fff3f6',
+    desc: 'Ruled A5 notebook with 120 pages of recycled paper and a plain kraft cover.' },
+  { id: 'p2', name: 'Spiral Notebook, Recycled Pages', category: 'Notebooks', price: 169, emoji: '📒', c1: '#d4e2cf', c2: '#eaf1e7',
+    desc: 'Spiral-bound notebook that lies flat on the desk. Pages are made from recycled paper.' },
+  { id: 'p3', name: 'Seed-Paper Bookmark Set (5)', category: 'Bookmarks', price: 99, emoji: '🔖', c1: '#eaf1e7', c2: '#d4e2cf',
+    desc: 'Five bookmarks made from seed paper. After reading, plant the paper in soil and water it.' },
+  { id: 'p4', name: 'Wildflower Seed Bookmark', category: 'Bookmarks', price: 49, emoji: '🌸', c1: '#fce6ec', c2: '#f3c4d1',
+    desc: 'A single plantable bookmark with a pressed-flower look. A small, thoughtful gift.' },
+  { id: 'p5', name: 'Reusable Cloth Tote Bag', category: 'Bags', price: 199, emoji: '👜', c1: '#f3c4d1', c2: '#fce6ec',
+    desc: 'Sturdy cotton tote with a long handle. Wash and reuse it for shopping, college or the market.' },
+  { id: 'p6', name: 'Foldable Cloth Shopping Bag', category: 'Bags', price: 149, emoji: '🛍️', c1: '#d4e2cf', c2: '#fff8ef',
+    desc: 'Folds into a small pouch so you can keep it in your handbag and skip single-use plastic.' },
+  { id: 'p7', name: 'Recycled-Paper Greeting Cards (6)', category: 'Cards', price: 179, emoji: '💌', c1: '#fff8ef', c2: '#f9dde4',
+    desc: 'Six blank greeting cards on recycled paper, with matching envelopes.' },
+  { id: 'p8', name: 'Handmade Thank-You Cards (4)', category: 'Cards', price: 129, emoji: '🌷', c1: '#fce6ec', c2: '#eaf1e7',
+    desc: 'Four small handmade-style thank-you cards with a textured recycled finish.' },
+  { id: 'p9', name: 'Eco Pencil and Eraser Set', category: 'Stationery', price: 89, emoji: '✏️', c1: '#eaf1e7', c2: '#fff3f6',
+    desc: 'A set of pencils made from recycled paper with a plant-based eraser.' },
+  { id: 'p10', name: 'Eco Stationery Combo', category: 'Stationery', price: 249, emoji: '📎', c1: '#f9dde4', c2: '#d4e2cf',
+    desc: 'A desk starter pack with a pencil set, sticky notes and paper clips in eco-friendly materials.' }
+];
+
+// Build a pretty product picture as an SVG so the project needs no image files.
+function productImage(p) {
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'>
+    <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0' stop-color='${p.c1}'/><stop offset='1' stop-color='${p.c2}'/></linearGradient></defs>
+    <rect width='400' height='300' fill='url(#g)'/>
+    <circle cx='340' cy='50' r='72' fill='white' opacity='.35'/>
+    <circle cx='45' cy='275' r='92' fill='white' opacity='.3'/>
+    <text x='200' y='188' font-size='116' text-anchor='middle'>${p.emoji}</text></svg>`;
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
+
+const storeState = { category: 'All', query: '', sort: 'featured' };
+
+function renderStore() {
+  // Category chips
+  const categories = ['All', ...new Set(PRODUCTS.map((p) => p.category))];
+  $('#categoryChips').innerHTML = categories.map((c) =>
+    `<button type="button" class="chip ${c === storeState.category ? 'active' : ''}" data-action="filter-cat" data-cat="${esc(c)}" aria-pressed="${c === storeState.category}">${esc(c)}</button>`
+  ).join('');
+
+  // Filter + search + sort
+  const q = storeState.query.trim().toLowerCase();
+  let list = PRODUCTS.filter((p) =>
+    (storeState.category === 'All' || p.category === storeState.category) &&
+    (!q || (p.name + ' ' + p.desc + ' ' + p.category).toLowerCase().includes(q))
+  );
+  if (storeState.sort === 'low') list = [...list].sort((a, b) => a.price - b.price);
+  if (storeState.sort === 'high') list = [...list].sort((a, b) => b.price - a.price);
+  if (storeState.sort === 'name') list = [...list].sort((a, b) => a.name.localeCompare(b.name));
+
+  $('#productCount').textContent = `Showing ${list.length} of ${PRODUCTS.length} demo products`;
+
+  if (!list.length) {
+    $('#productGrid').innerHTML = `<div style="grid-column:1/-1">${emptyState('🔍', 'No products match your search. Try another word or choose "All".')}</div>`;
+    return;
+  }
+  $('#productGrid').innerHTML = list.map((p) => `
+    <article class="product-card">
+      <div class="product-img">
+        <img src="${productImage(p)}" alt="${esc(p.name)} (sample illustration)" loading="lazy" />
+        <span class="badge badge-demo">Demo product</span>
+      </div>
+      <div class="product-body">
+        <span class="product-cat">${esc(p.category)}</span>
+        <h3>${esc(p.name)}</h3>
+        <p>${esc(p.desc)}</p>
+        <div class="product-foot">
+          <span class="price">${inr(p.price)}</span>
+          <button type="button" class="btn btn-sage btn-sm" data-action="add-cart" data-id="${p.id}">Add to cart</button>
+        </div>
+      </div>
+    </article>`).join('');
+}
+
+/* =========================================================
+   8. CART, CHECKOUT AND ORDERS
+   The cart is saved per user (or "guest" when logged out).
+   ========================================================= */
+
+let useCoinsChecked = false; // remembers the "use coins" tick box while the cart redraws
+
+function cartKey() {
+  const user = currentUser();
+  return KEYS.cartPrefix + (user ? user.id : 'guest');
+}
+function getCart() { return load(cartKey(), []); }
+function saveCart(cart) { save(cartKey(), cart); updateNav(); }
+
+function addToCart(productId) {
+  const cart = getCart();
+  const item = cart.find((i) => i.id === productId);
+  if (item) {
+    if (item.qty >= MAX_QTY_PER_ITEM) { toast('You can add up to ' + MAX_QTY_PER_ITEM + ' of one item.', 'error'); return; }
+    item.qty += 1;
+  } else {
+    cart.push({ id: productId, qty: 1 });
+  }
+  saveCart(cart);
+  const p = PRODUCTS.find((x) => x.id === productId);
+  toast((p ? p.name : 'Item') + ' added to cart.');
+}
+
+function changeQty(productId, delta) {
+  let cart = getCart();
+  const item = cart.find((i) => i.id === productId);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty > MAX_QTY_PER_ITEM) { item.qty = MAX_QTY_PER_ITEM; toast('Maximum ' + MAX_QTY_PER_ITEM + ' per item.', 'error'); }
+  if (item.qty <= 0) cart = cart.filter((i) => i.id !== productId);
+  saveCart(cart);
+  renderCart();
+}
+
+function removeFromCart(productId) {
+  saveCart(getCart().filter((i) => i.id !== productId));
+  renderCart();
+  toast('Item removed from cart.');
+}
+
+// Turn cart items into full product lines with line totals.
+function cartLines(cart) {
+  return cart.map((item) => {
+    const p = PRODUCTS.find((x) => x.id === item.id);
+    return p ? { ...p, qty: item.qty, lineTotal: p.price * item.qty } : null;
+  }).filter(Boolean);
+}
+
+// Calculate subtotal, coin discount and final total.
+function computeTotals(lines, useCoins) {
+  const subtotal = lines.reduce((sum, l) => sum + l.lineTotal, 0);
+  const user = currentUser();
+  let coinsUsed = 0;
+  if (useCoins && isMember(user)) {
+    const maxCoins = Math.floor((subtotal * MAX_COIN_DISCOUNT) / COIN_VALUE_INR);
+    coinsUsed = Math.min(balanceOf(user.id), maxCoins);
+  }
+  const discount = coinsUsed * COIN_VALUE_INR;
+  return { subtotal, coinsUsed, discount, total: subtotal - discount };
+}
+
+function renderCart() {
+  const user = currentUser();
+  const lines = cartLines(getCart());
+
+  // Items list
+  if (!lines.length) {
+    $('#cartItems').innerHTML = emptyState('🛒', 'Your cart is empty. Add something from the eco store.', '#store', 'Browse the store');
+  } else {
+    $('#cartItems').innerHTML = lines.map((l) => `
+      <div class="cart-row">
+        <img src="${productImage(l)}" alt="" />
+        <div>
+          <h4>${esc(l.name)}</h4>
+          <span class="muted">${inr(l.price)} each</span><br />
+          <div class="qty" role="group" aria-label="Quantity for ${esc(l.name)}">
+            <button type="button" data-action="qty-dec" data-id="${l.id}" aria-label="Decrease quantity">−</button>
+            <span>${l.qty}</span>
+            <button type="button" data-action="qty-inc" data-id="${l.id}" aria-label="Increase quantity">+</button>
+          </div>
+          <button type="button" class="link-btn" data-action="remove-item" data-id="${l.id}">Remove</button>
+        </div>
+        <div class="line-total">${inr(l.lineTotal)}</div>
+      </div>`).join('');
+  }
+
+  // Coin option (only for members who have coins)
+  const coinBox = $('#coinOption');
+  const balance = isMember(user) ? balanceOf(user.id) : 0;
+  if (isMember(user) && balance > 0 && lines.length) {
+    coinBox.innerHTML = `<div class="field field-check"><label class="check">
+      <input type="checkbox" id="useCoins" ${useCoinsChecked ? 'checked' : ''} />
+      <span>Use my demo coins for a discount (you have ${balance}; 1 coin = ${inr(COIN_VALUE_INR)}, up to 50% of the subtotal)</span></label></div>`;
+  } else {
+    coinBox.innerHTML = '';
+    useCoinsChecked = false;
+  }
+
+  // Summary
+  const t = computeTotals(lines, useCoinsChecked);
+  $('#cartSummary').innerHTML = `
+    <div class="sum-row"><span>Subtotal (${lines.reduce((n, l) => n + l.qty, 0)} items)</span><span>${inr(t.subtotal)}</span></div>
+    ${t.coinsUsed ? `<div class="sum-row discount"><span>Coin discount (${t.coinsUsed} coins)</span><span>− ${inr(t.discount)}</span></div>` : ''}
+    <div class="sum-row"><span>Delivery</span><span>Free (demo)</span></div>
+    <div class="sum-row total"><span>Total</span><span>${inr(t.total)}</span></div>
+    <p class="muted small-top">Prices are demo values. No real payment is taken.</p>`;
+
+  // Pre-fill the checkout name for logged-in members
+  const nameInput = field($('#checkoutForm'), 'name');
+  if (isMember(user) && !nameInput.value) nameInput.value = user.name;
+}
+
+function handleCheckout(form) {
+  clearErrors(form);
+  const user = currentUser();
+  if (!isMember(user)) {
+    afterLogin = '#cart';
+    toast('Please log in as a member to place an order.', 'error');
+    go('#auth/login');
+    return;
+  }
+  const lines = cartLines(getCart());
+  if (!lines.length) { showFormMessage(form, 'error', 'Your cart is empty. Add a product first.'); return; }
+
+  let ok = true;
+  const name = field(form, 'name').value.trim();
+  const phone = field(form, 'phone').value.trim();
+  const address = field(form, 'address').value.trim();
+  const payment = field(form, 'payment').value;
+
+  if (name.length < 2) { setError(field(form, 'name'), 'Enter your full name.'); ok = false; }
+  if (!/^[6-9]\d{9}$/.test(phone)) { setError(field(form, 'phone'), 'Enter a 10-digit mobile number starting with 6, 7, 8 or 9.'); ok = false; }
+  if (address.length < 10) { setError(field(form, 'address'), 'Enter a delivery address (at least 10 characters). Sample text is fine.'); ok = false; }
+  if (!ok) return;
+
+  const totals = computeTotals(lines, useCoinsChecked);
+  const order = {
+    id: makeId('ORD'),
+    userId: user.id,
+    customer: name,
+    phone,
+    address,
+    payment,
+    items: lines.map((l) => ({ id: l.id, name: l.name, price: l.price, qty: l.qty })),
+    subtotal: totals.subtotal,
+    coinsUsed: totals.coinsUsed,
+    discount: totals.discount,
+    total: totals.total,
+    status: 'Demo order placed',
+    date: new Date().toISOString()
+  };
+
+  const orders = load(KEYS.orders, []);
+  orders.push(order);
+  save(KEYS.orders, orders);
+
+  // If coins were used, record a negative transaction so the balance stays correct.
+  if (totals.coinsUsed > 0) {
+    const tx = getTransactions();
+    tx.push({
+      id: makeId('TX'), userId: user.id, requestId: null, type: 'redeem',
+      coins: -totals.coinsUsed, note: `Discount on order ${order.id}`, date: new Date().toISOString()
+    });
+    save(KEYS.transactions, tx);
+  }
+
+  saveCart([]);          // empty the cart
+  useCoinsChecked = false;
+  form.reset();
+  renderCart();
+
+  openModal(`
+    <div class="modal-center">
+      <div class="success-mark">🎉</div>
+      <h2 id="modalTitleHolder">Order confirmed (demo)</h2>
+      <p>Thank you, ${esc(name.split(' ')[0])}! Your demo order <strong>${esc(order.id)}</strong> has been saved.</p>
+      <p><strong>Total: ${inr(order.total)}</strong>${order.coinsUsed ? ` (after using ${order.coinsUsed} coins)` : ''}</p>
+      <p class="muted">No real payment was taken and nothing will be shipped.</p>
+      <div class="modal-actions">
+        <a href="#dashboard" class="btn btn-primary btn-sm" data-action="close-modal">View order history</a>
+        <a href="#store" class="btn btn-outline btn-sm" data-action="close-modal">Keep shopping</a>
+      </div>
+    </div>`);
+}
+
+function ordersTable(orders, showCustomer) {
+  if (!orders.length) {
+    return emptyState('📦', 'No orders yet.', showCustomer ? '' : '#store', showCustomer ? '' : 'Visit the store');
+  }
+  return `<div class="table-wrap"><table>
+    <thead><tr><th>Order ID</th>${showCustomer ? '<th>Customer</th>' : ''}<th>Items</th><th>Total</th><th>Payment</th><th>Date</th><th>Status</th></tr></thead>
+    <tbody>${orders.map((o) => `
+      <tr>
+        <td><strong>${esc(o.id)}</strong></td>
+        ${showCustomer ? `<td>${esc(o.customer)}<small>${esc(o.phone)}</small></td>` : ''}
+        <td>${o.items.map((i) => `${esc(i.name)} × ${esc(i.qty)}`).join('<br />')}</td>
+        <td>${inr(o.total)}${o.coinsUsed ? `<small>${esc(o.coinsUsed)} coins used</small>` : ''}</td>
+        <td>${esc(o.payment)}</td>
+        <td>${esc(formatDate(o.date))}</td>
+        <td><span class="badge badge-demo">${esc(o.status)}</span></td>
+      </tr>`).join('')}
+    </tbody></table></div>`;
+}
+
+/* =========================================================
+   9. MILK BANK INFORMATION
+   IMPORTANT: These entries are made-up DEMO data, not real hospitals.
+   ========================================================= */
+
+const MILK_BANKS = [
+  { id: 'mb1', name: 'Sample City Hospital Milk Bank (DEMO)', city: 'Demo City A', phone: '+91 00000 00001 (demo)', email: 'milkbank-a@example.org', hours: 'Mon to Sat, 9:00 am to 4:00 pm (sample)' },
+  { id: 'mb2', name: 'Sample Women & Child Hospital Lactation Unit (DEMO)', city: 'Demo City B', phone: '+91 00000 00002 (demo)', email: 'lactation-b@example.org', hours: 'Daily, 10:00 am to 5:00 pm (sample)' },
+  { id: 'mb3', name: 'Sample District Hospital Milk Bank (DEMO)', city: 'Demo City C', phone: '+91 00000 00003 (demo)', email: 'milkbank-c@example.org', hours: 'Mon to Fri, 9:30 am to 3:30 pm (sample)' },
+  { id: 'mb4', name: 'Sample Medical College Neonatal Unit (DEMO)', city: 'Demo City A', phone: '+91 00000 00004 (demo)', email: 'neonatal-d@example.org', hours: 'Mon to Sat, 8:30 am to 2:30 pm (sample)' }
+];
+
+function renderMilk() {
+  const q = $('#milkSearch').value.trim().toLowerCase();
+  const list = MILK_BANKS.filter((m) => !q || (m.name + ' ' + m.city).toLowerCase().includes(q));
+  if (!list.length) {
+    $('#milkList').innerHTML = emptyState('🔍', 'No demo listings match your search. Try "Demo City A".');
+    return;
+  }
+  $('#milkList').innerHTML = list.map((m) => `
+    <div class="milk-item">
+      <span class="badge badge-demo">Demo listing</span>
+      <h3>${esc(m.name)}</h3>
+      <p><strong>City:</strong> ${esc(m.city)}</p>
+      <p><strong>Phone:</strong> ${esc(m.phone)}</p>
+      <p><strong>Email:</strong> ${esc(m.email)}</p>
+      <p><strong>Hours:</strong> ${esc(m.hours)}</p>
+      <button type="button" class="btn btn-outline btn-sm" data-action="enquire" data-id="${m.id}">Send an enquiry</button>
+    </div>`).join('');
+}
+
+function openEnquiry(bankId) {
+  const bank = MILK_BANKS.find((m) => m.id === bankId);
+  if (!bank) return;
+  const user = currentUser();
+  openModal(`
+    <h2 id="modalTitleHolder">Enquiry to ${esc(bank.name)}</h2>
+    <div class="notice notice-warn">Demo only. This message is saved in your browser and is not sent to any hospital.</div>
+    <form id="enquiryForm" novalidate>
+      <input type="hidden" name="facility" value="${esc(bank.id)}" />
+      <div class="field"><label for="enName">Your name</label>
+        <input type="text" id="enName" name="name" value="${user ? esc(user.name) : ''}" /><small class="error"></small></div>
+      <div class="field"><label for="enEmail">Your email</label>
+        <input type="email" id="enEmail" name="email" value="${user ? esc(user.email) : ''}" /><small class="error"></small></div>
+      <div class="field"><label for="enMessage">Your question</label>
+        <textarea id="enMessage" name="message" rows="4" maxlength="500" placeholder="For example: How do I check if I can donate?"></textarea><small class="error"></small></div>
+      <div class="form-msg" role="alert"></div>
+      <button type="submit" class="btn btn-primary btn-block">Send enquiry</button>
+    </form>`);
+}
+
+function handleEnquiry(form) {
+  clearErrors(form);
+  let ok = true;
+  const name = field(form, 'name').value.trim();
+  const email = field(form, 'email').value.trim();
+  const message = field(form, 'message').value.trim();
+  if (name.length < 2) { setError(field(form, 'name'), 'Enter your name.'); ok = false; }
+  if (!EMAIL_PATTERN.test(email)) { setError(field(form, 'email'), 'Enter a valid email address.'); ok = false; }
+  if (message.length < 10) { setError(field(form, 'message'), 'Please write at least 10 characters.'); ok = false; }
+  if (!ok) return;
+
+  const list = load(KEYS.enquiries, []);
+  list.push({ id: makeId('ENQ'), facility: field(form, 'facility').value, name, email, message, date: new Date().toISOString() });
+  save(KEYS.enquiries, list);
+
+  $('#modalContent').innerHTML = `
+    <div class="modal-center">
+      <div class="success-mark">💌</div>
+      <h2 id="modalTitleHolder">Enquiry saved (demo)</h2>
+      <p>Thank you! In a real project this would go to the hospital. Please contact a verified facility directly before you decide to donate.</p>
+      <div class="modal-actions"><button type="button" class="btn btn-primary btn-sm" data-action="close-modal">Close</button></div>
+    </div>`;
+}
+
+/* =========================================================
+   10. DASHBOARD
+   ========================================================= */
+
+function renderDashboard() {
+  const user = currentUser();
+  if (!isMember(user)) return;
+
+  const requests = getRequests().filter((r) => r.userId === user.id).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const collected = requests.filter((r) => r.status === 'Collected');
+  const tx = userTransactions(user.id);
+  const orders = load(KEYS.orders, []).filter((o) => o.userId === user.id).sort((a, b) => b.date.localeCompare(a.date));
+
+  $('#dashWelcome').textContent = 'Welcome, ' + user.name.split(' ')[0];
+  $('#dashCoins').textContent = balanceOf(user.id);
+  $('#dashReqCount').textContent = requests.length;
+  $('#dashCollected').textContent = collected.length;
+
+  // Requests (latest 5)
+  $('#dashRequests').innerHTML = requests.length
+    ? `<ul class="mini-list">${requests.slice(0, 5).map((r) => `
+        <li><span><strong>${esc(r.id)}</strong><small>${esc(CATEGORY_LABELS[r.category])}, ${esc(r.quantity)} items</small></span>${statusBadge(r.status)}</li>`).join('')}</ul>
+       <p class="small-top"><a href="#recycle">See all requests</a></p>`
+    : emptyState('🌿', 'No requests yet.', '#recycle', 'Make your first request');
+
+  // Recent transactions (latest 5)
+  $('#dashTx').innerHTML = tx.length
+    ? `<ul class="mini-list">${tx.slice(0, 5).map((t) => `
+        <li><span>${esc(t.note)}<small>${esc(formatDate(t.date))}</small></span><span class="${t.coins >= 0 ? 'coins-plus' : 'coins-minus'}">${t.coins >= 0 ? '+' : ''}${esc(t.coins)}</span></li>`).join('')}</ul>`
+    : emptyState('🪙', 'No transactions yet.');
+
+  // Cart summary
+  const lines = cartLines(getCart());
+  const totals = computeTotals(lines, false);
+  $('#dashCart').innerHTML = lines.length
+    ? `<ul class="mini-list">${lines.map((l) => `<li><span>${esc(l.name)}<small>Qty ${l.qty}</small></span><span>${inr(l.lineTotal)}</span></li>`).join('')}</ul>
+       <div class="sum-row total"><span>Cart total</span><span>${inr(totals.subtotal)}</span></div>
+       <a href="#cart" class="btn btn-primary btn-sm">Go to cart</a>`
+    : emptyState('🛒', 'Your cart is empty.', '#store', 'Browse the store');
+
+  // Environmental contribution: only counts what is recorded in this browser
+  const countFor = (cat) => collected.filter((r) => r.category === cat).reduce((s, r) => s + r.quantity, 0);
+  const diapers = countFor('diapers');
+  const pads = countFor('pads');
+  $('#dashImpact').innerHTML = collected.length
+    ? `<ul class="mini-list">
+         <li><span>Disposable diapers collected</span><strong>${diapers}</strong></li>
+         <li><span>Sanitary pads collected</span><strong>${pads}</strong></li>
+         <li><span>Total items collected</span><strong>${diapers + pads}</strong></li>
+         <li><span>Collections completed</span><strong>${collected.length}</strong></li>
+       </ul>
+       <p class="muted small-top">These numbers come only from requests the demo admin marked as collected in this browser.</p>`
+    : `<div class="empty"><span class="empty-icon">🌱</span><p>Your contribution will appear here after a request is marked as collected.</p></div>
+       <p class="muted small-top">Only recorded demo data is counted. We do not estimate anything extra.</p>`;
+
+  $('#dashOrders').innerHTML = ordersTable(orders, false);
+}
+
+/* =========================================================
+   11. ADMIN PANEL (SIMULATED)
+   The admin check below runs in the browser, so it is NOT real security.
+   ========================================================= */
+
+// Stop an action if the current user is not the demo admin.
+function requireAdmin() {
+  if (!isAdmin(currentUser())) {
+    toast('Admin demo access only.', 'error');
+    return false;
+  }
+  return true;
+}
+
+// Change a request's status, but only along allowed steps.
+function changeStatus(requestId, newStatus, allowedFrom) {
+  if (!requireAdmin()) return;
+  const requests = getRequests();
+  const r = requests.find((x) => x.id === requestId);
+  if (!r) { toast('Request not found.', 'error'); return; }
+  if (!allowedFrom.includes(r.status)) {
+    toast(`Cannot change from "${r.status}" to "${newStatus}".`, 'error');
+    return;
+  }
+  r.status = newStatus;
+  r.updatedAt = new Date().toISOString();
+  save(KEYS.requests, requests);
+  toast(`${r.id} is now ${newStatus}.`);
+  renderAdmin();
+}
+
+// Give the demo reward ONCE for a collected request.
+function awardReward(requestId) {
+  if (!requireAdmin()) return;
+  const requests = getRequests();
+  const r = requests.find((x) => x.id === requestId);
+  if (!r) { toast('Request not found.', 'error'); return; }
+  if (r.status !== 'Collected') { toast('Coins can only be awarded after the request is collected.', 'error'); return; }
+
+  const tx = getTransactions();
+  // Duplicate protection: check both the flag AND the transaction history.
+  if (r.rewarded || tx.some((t) => t.requestId === r.id && t.type === 'earn')) {
+    toast('A reward was already given for this request.', 'error');
+    return;
+  }
+  tx.push({
+    id: makeId('TX'), userId: r.userId, requestId: r.id, type: 'earn',
+    coins: REWARD_COINS, note: `Reward for verified contribution ${r.id}`, date: new Date().toISOString()
+  });
+  r.rewarded = true;
+  save(KEYS.transactions, tx);
+  save(KEYS.requests, requests);
+  toast(`${REWARD_COINS} demo coins awarded for ${r.id}.`);
+  renderAdmin();
+}
+
+function renderAdmin() {
+  if (!isAdmin(currentUser())) return;
+  const users = getUsers();
+  const requests = getRequests().sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const orders = load(KEYS.orders, []).sort((a, b) => b.date.localeCompare(a.date));
+  const coinsIssued = getTransactions().filter((t) => t.type === 'earn').reduce((s, t) => s + t.coins, 0);
+  const count = (status) => requests.filter((r) => r.status === status).length;
+
+  const stat = (num, label) => `<div class="stat-card"><span class="stat-num">${num}</span><span class="stat-label">${label}</span></div>`;
+  $('#adminStats').innerHTML =
+    stat(users.filter((u) => u.role === 'user').length, 'Registered members') +
+    stat(requests.length, 'Total requests') +
+    stat(count('Pending Review'), 'Pending review') +
+    stat(count('Approved'), 'Approved, awaiting collection') +
+    stat(count('Collected'), 'Collected') +
+    stat(coinsIssued, 'Demo coins issued') +
+    stat(orders.length, 'Orders placed') +
+    stat(inr(orders.reduce((s, o) => s + o.total, 0)), 'Demo order value');
+
+  // Requests table
+  if (!requests.length) {
+    $('#adminRequests').innerHTML = emptyState('📭', 'No requests have been submitted yet. Register a member account and send one.');
+  } else {
+    const byId = Object.fromEntries(users.map((u) => [u.id, u]));
+    $('#adminRequests').innerHTML = `<div class="table-wrap"><table>
+      <thead><tr><th>Request</th><th>Member</th><th>Category</th><th>Qty</th><th>Area / date</th><th>Status</th><th>Reward</th><th>Actions</th></tr></thead>
+      <tbody>${requests.map((r) => {
+        const u = byId[r.userId];
+        let actions = '<span class="muted">No action needed</span>';
+        if (r.status === 'Pending Review') {
+          actions = `<button type="button" class="btn btn-sage btn-xs" data-action="admin-approve" data-id="${esc(r.id)}">Approve</button>
+                     <button type="button" class="btn btn-danger btn-xs" data-action="admin-reject" data-id="${esc(r.id)}">Reject</button>`;
+        } else if (r.status === 'Approved') {
+          actions = `<button type="button" class="btn btn-primary btn-xs" data-action="admin-collect" data-id="${esc(r.id)}">Mark collected</button>`;
+        } else if (r.status === 'Collected' && !r.rewarded) {
+          actions = `<button type="button" class="btn btn-primary btn-xs" data-action="admin-award" data-id="${esc(r.id)}">Award ${REWARD_COINS} coins</button>`;
+        }
+        return `<tr>
+          <td><strong>${esc(r.id)}</strong>${r.notes ? `<small>Note: ${esc(r.notes)}</small>` : ''}</td>
+          <td>${u ? esc(u.name) : 'Unknown'}<small>${u ? esc(u.email) : ''}</small></td>
+          <td>${esc(CATEGORY_LABELS[r.category] || r.category)}</td>
+          <td>${esc(r.quantity)}</td>
+          <td>${esc(r.area)}<small>${esc(formatDate(r.date))}</small></td>
+          <td>${statusBadge(r.status)}</td>
+          <td>${r.rewarded ? `<span class="coins-plus">Given (+${REWARD_COINS})</span>` : '<span class="muted">Not given</span>'}</td>
+          <td><div class="actions-cell">${actions}</div></td>
+        </tr>`;
+      }).join('')}</tbody></table></div>`;
+  }
+
+  $('#adminOrders').innerHTML = ordersTable(orders, true);
+}
+
+function resetDemoData() {
+  if (!requireAdmin()) return;
+  if (!window.__resetArmed) {
+    window.__resetArmed = true;
+    toast('This deletes ALL demo data. Press "Reset all demo data" again within 5 seconds to confirm.', 'error');
+    setTimeout(() => { window.__resetArmed = false; }, 5000);
+    return;
+  }
+  window.__resetArmed = false;
+  Object.keys(localStorage).filter((k) => k.startsWith('nc_')).forEach((k) => localStorage.removeItem(k));
+  seedAdmin();
+  useCoinsChecked = false;
+  toast('All demo data has been reset.');
+  go('#home');
+}
+
+/* =========================================================
+   12. CONTACT FORM
+   ========================================================= */
+
+function handleContact(form) {
+  clearErrors(form);
+  let ok = true;
+  const name = field(form, 'name').value.trim();
+  const email = field(form, 'email').value.trim();
+  const subject = field(form, 'subject').value.trim();
+  const message = field(form, 'message').value.trim();
+
+  if (name.length < 2) { setError(field(form, 'name'), 'Enter your name.'); ok = false; }
+  if (!EMAIL_PATTERN.test(email)) { setError(field(form, 'email'), 'Enter a valid email address.'); ok = false; }
+  if (subject.length < 3) { setError(field(form, 'subject'), 'Enter a short subject.'); ok = false; }
+  if (message.length < 10) { setError(field(form, 'message'), 'Please write at least 10 characters.'); ok = false; }
+  if (!ok) return;
+
+  const list = load(KEYS.contacts, []);
+  list.push({ id: makeId('MSG'), name, email, subject, message, date: new Date().toISOString() });
+  save(KEYS.contacts, list);
+  form.reset();
+  showFormMessage(form, 'success', 'Thank you! Your message was saved (demo). In a real website it would be emailed to our team.');
+}
+
+/* =========================================================
+   13. HOME PAGE STATISTICS
+   ========================================================= */
+
+function renderHome() {
+  // Count-up animation for the demo numbers
+  $$('#demoStats [data-count]').forEach((el) => {
+    const target = Number(el.dataset.count);
+    const start = performance.now();
+    const duration = 1200;
+    function tick(now) {
+      const progress = Math.min(1, (now - start) / duration);
+      el.textContent = Math.round(target * progress).toLocaleString('en-IN');
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+
+  // Real numbers recorded in this browser
+  const members = getUsers().filter((u) => u.role === 'user').length;
+  const requests = getRequests().length;
+  const orders = load(KEYS.orders, []).length;
+  $('#localStats').textContent =
+    `Recorded in this browser right now: ${members} demo member(s), ${requests} recycling request(s), ${orders} demo order(s).`;
+}
+
+/* =========================================================
+   14. ROUTER (PAGE NAVIGATION) AND START-UP
+   Pages are sections of index.html. The URL hash (#store, #cart ...)
+   decides which section is visible.
+   ========================================================= */
+
+const PAGES = ['home', 'auth', 'recycle', 'wallet', 'store', 'cart', 'milk', 'dashboard', 'about', 'admin'];
+const PROTECTED = { wallet: 'member', dashboard: 'member', admin: 'admin' };
+
+// Show or hide menu items depending on who is logged in.
+function updateNav() {
+  const user = currentUser();
+  $$('[data-show]').forEach((el) => {
+    const rule = el.dataset.show;
+    const visible =
+      (rule === 'guest' && !user) ||
+      (rule === 'loggedin' && Boolean(user)) ||
+      (rule === 'member' && isMember(user)) ||
+      (rule === 'admin' && isAdmin(user));
+    el.hidden = !visible;
+  });
+  if (user) $('#userChip').textContent = (isAdmin(user) ? 'Admin: ' : '') + user.name.split(' ')[0];
+
+  const count = getCart().reduce((n, i) => n + i.qty, 0);
+  ['#cartCount', '#cartCountDesktop'].forEach((sel) => {
+    const el = $(sel);
+    el.textContent = count;
+    el.dataset.zero = String(count === 0);
+  });
+}
+
+let currentPage = 'home';
+
+// Draw the content of one page.
+function renderPage(page, sub) {
+  switch (page) {
+    case 'home': renderHome(); break;
+    case 'auth': showAuthTab(sub); break;
+    case 'recycle': renderRecycle(); break;
+    case 'wallet': renderWallet(); break;
+    case 'store': renderStore(); break;
+    case 'cart': renderCart(); break;
+    case 'milk': renderMilk(); break;
+    case 'dashboard': renderDashboard(); break;
+    case 'admin': renderAdmin(); break;
+    default: break; // "about" is static text
+  }
+}
+
+function route() {
+  const hash = (location.hash || '#home').slice(1);
+  const [pageName, sub] = hash.split('/');
+  let page = PAGES.includes(pageName) ? pageName : 'home';
+  const user = currentUser();
+
+  // The "contact" anchor lives inside the About page.
+  if (pageName === 'contact') page = 'about';
+
+  // Logged-in people do not need the login page.
+  if (page === 'auth' && user) { go(isAdmin(user) ? '#admin' : '#dashboard'); return; }
+
+  // Protect pages (browser-side only, for the demo).
+  const need = PROTECTED[page];
+  if (need) {
+    if (!user) {
+      afterLogin = '#' + page;
+      toast('Please log in to open that page.', 'error');
+      go('#auth/login');
+      return;
+    }
+    if (need === 'admin' && !isAdmin(user)) { toast('Admin demo access only.', 'error'); go('#home'); return; }
+    if (need === 'member' && isAdmin(user)) { go('#admin'); return; }
+  }
+
+  currentPage = page;
+  $$('.page').forEach((p) => p.classList.toggle('active', p.id === 'page-' + page));
+  $$('[data-nav]').forEach((a) => a.classList.toggle('active', a.dataset.nav === page));
+  updateNav();
+  renderPage(page, sub);
+
+  // Close the mobile menu and scroll to the top (or to the contact form).
+  $('#mainNav').classList.remove('open');
+  $('#navToggle').setAttribute('aria-expanded', 'false');
+  if (pageName === 'contact') $('#contact').scrollIntoView();
+  else window.scrollTo(0, 0);
+}
+
+// Redraw the current page without scrolling (used after an action).
+function refresh() {
+  updateNav();
+  renderPage(currentPage);
+}
+
+/* ---------- Event listeners ---------- */
+
+// One listener handles all buttons that have a data-action attribute.
+document.addEventListener('click', (e) => {
+  const target = e.target.closest('[data-action]');
+  if (target) {
+    const id = target.dataset.id;
+    switch (target.dataset.action) {
+      case 'add-cart': addToCart(id); break;
+      case 'qty-inc': changeQty(id, 1); break;
+      case 'qty-dec': changeQty(id, -1); break;
+      case 'remove-item': removeFromCart(id); break;
+      case 'clear-cart':
+        if (!getCart().length) { toast('Your cart is already empty.'); break; }
+        saveCart([]); renderCart(); toast('Cart cleared.'); break;
+      case 'filter-cat': storeState.category = target.dataset.cat; renderStore(); break;
+      case 'enquire': openEnquiry(id); break;
+      case 'close-modal': closeModal(); break;
+      case 'admin-approve': changeStatus(id, 'Approved', ['Pending Review']); break;
+      case 'admin-reject': changeStatus(id, 'Rejected', ['Pending Review']); break;
+      case 'admin-collect': changeStatus(id, 'Collected', ['Approved']); break;
+      case 'admin-award': awardReward(id); break;
+      default: break;
+    }
+    return;
+  }
+
+  // Login / Register tabs
+  const tab = e.target.closest('[data-tab]');
+  if (tab) { go('#auth/' + tab.dataset.tab); return; }
+
+  // Click on the dark background closes the modal
+  if (e.target === $('#modal')) closeModal();
+});
+
+// One listener handles every form submit.
+document.addEventListener('submit', (e) => {
+  e.preventDefault(); // stop the page from reloading
+  const form = e.target;
+  switch (form.id) {
+    case 'registerForm': handleRegister(form); break;
+    case 'loginForm': handleLogin(form); break;
+    case 'recycleForm': handleRecycleSubmit(form); break;
+    case 'checkoutForm': handleCheckout(form); break;
+    case 'contactForm': handleContact(form); break;
+    case 'enquiryForm': handleEnquiry(form); break;
+    default: break;
+  }
+});
+
+// Tick box "use coins" at checkout
+document.addEventListener('change', (e) => {
+  if (e.target.id === 'useCoins') { useCoinsChecked = e.target.checked; renderCart(); }
+  if (e.target.id === 'sortSelect') { storeState.sort = e.target.value; renderStore(); }
+});
+
+// Live search boxes
+document.addEventListener('input', (e) => {
+  if (e.target.id === 'searchInput') { storeState.query = e.target.value; renderStore(); }
+  if (e.target.id === 'milkSearch') renderMilk();
+});
+
+// Keyboard: Escape closes the modal and the mobile menu
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  if (!$('#modal').hidden) closeModal();
+  $('#mainNav').classList.remove('open');
+  $('#navToggle').setAttribute('aria-expanded', 'false');
+});
+
+window.addEventListener('hashchange', route);
+
+document.addEventListener('DOMContentLoaded', () => {
+  seedAdmin();
+
+  $('#logoutBtn').addEventListener('click', logout);
+  $('#modalClose').addEventListener('click', closeModal);
+  $('#resetDemoBtn').addEventListener('click', resetDemoData);
+  $('#navToggle').addEventListener('click', () => {
+    const open = $('#mainNav').classList.toggle('open');
+    $('#navToggle').setAttribute('aria-expanded', String(open));
+  });
+
+  route(); // show the first page
+});
+
+</script>
+</body>
+</html>
